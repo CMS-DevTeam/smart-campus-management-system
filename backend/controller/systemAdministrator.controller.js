@@ -26,4 +26,20 @@ const getSystemAdministrator = async (req,res) => {
       } catch (error) {
         res.status(500).json({ message: error.message });
       }
+};
+
+const updateSystemAdministrator = async (req,res) => {
+    try {
+        const { id } = req.params;
+        const systemAdministrator = await SystemAdministrator.findByIdAndUpdate(id, req.body);
+    
+        if (!systemAdministrator) {
+          return res.status(404).json({ message: "Product not found" });
+        }
+    
+        const updateSystemAdministrator = await SystemAdministrator.findById(id);
+        res.status(200).json({ data: updateSystemAdministrator });
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
 }
