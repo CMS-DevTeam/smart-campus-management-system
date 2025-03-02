@@ -11,7 +11,6 @@ const getSystemAdministrators = async (req, res) => {
 
 const createSystemAdministrator = async (req, res) => {
   try {
-    console.log("Request Body:", req.body);
     const systemAdministrator = await SystemAdministrator.create(req.body);
     res.status(201).json({ data: systemAdministrator });
   } catch (error) {
@@ -37,7 +36,6 @@ const updateSystemAdministrator = async (req, res) => {
       req.body,
       { new: true, runValidators: true }
     );
-    console.log("Request Body:", req.body);
 
     if (!systemAdministrator) {
       return res.status(404).json({ message: "Addministrator not found" });
@@ -50,24 +48,24 @@ const updateSystemAdministrator = async (req, res) => {
   }
 };
 
-const deleteSystemAdministrator = async (req,res) => {
-    try {
-        const { id } = req.params;
-        const systemAdministrator = await SystemAdministrator.findByIdAndDelete(id);
-    
-        if (!systemAdministrator) {
-          return res.status(404).json({ message: "Addministrator not found" });
-        }
-        res.status(200).json({ message: "Addministrator deleted successfully" });
-      } catch (error) {
-        res.status(500).json({ message: error.message });
-      }
+const deleteSystemAdministrator = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const systemAdministrator = await SystemAdministrator.findByIdAndDelete(id);
+
+    if (!systemAdministrator) {
+      return res.status(404).json({ message: "Addministrator not found" });
+    }
+    res.status(200).json({ message: "Addministrator deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 module.exports = {
-    getSystemAdministrators,
-    createSystemAdministrator,
-    getSystemAdministrator,
-    updateSystemAdministrator,
-    deleteSystemAdministrator
-}
+  getSystemAdministrators,
+  createSystemAdministrator,
+  getSystemAdministrator,
+  updateSystemAdministrator,
+  deleteSystemAdministrator,
+};

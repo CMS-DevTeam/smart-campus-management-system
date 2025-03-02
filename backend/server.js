@@ -1,7 +1,7 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const  connectDB  = require('./config/db');
-const systemAdministratorRoute = require('./routes/systemAdministrator.route');
+const express = require("express");
+const dotenv = require("dotenv");
+const connectDB = require("./config/db");
+const systemAdministratorRoute = require("./routes/systemAdministrator.route");
 
 dotenv.config();
 
@@ -14,14 +14,11 @@ app.use(express.urlencoded({ extended: true }));
 //routes
 app.use("/api/administrator", systemAdministratorRoute);
 
-
-app.get('/', (req, res) => {
-    res.send('Server is ready');
+app.get("/", (req, res) => {
+  res.send("Server is ready");
 });
 
 app.listen(5000, () => {
-    connectDB();
-    console.log('Server started at http://localhost:5000');
-    
-});  
-
+  connectDB();
+  console.log("Server started at http://localhost:5000");
+});
