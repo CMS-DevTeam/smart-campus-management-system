@@ -17,3 +17,13 @@ const createSystemAdministrator = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+const getSystemAdministrator = async (req,res) => {
+    try {
+        const { id } = req.params;
+        const systemAdministrator = await SystemAdministrator.findById(id);
+        res.status(200).json({ data: systemAdministrator });
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
+}
