@@ -18,28 +18,45 @@ const createSystemAdministrator = async (req, res) => {
   }
 };
 
-const getSystemAdministrator = async (req,res) => {
+const getSystemAdministrator = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const systemAdministrator = await SystemAdministrator.findById(id);
+    res.status(200).json({ data: systemAdministrator });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const updateSystemAdministrator = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const systemAdministrator = await SystemAdministrator.findByIdAndUpdate(
+      id,
+      req.body
+    );
+
+    if (!systemAdministrator) {
+      return res.status(404).json({ message: "Addministrator not found" });
+    }
+
+    const updateSystemAdministrator = await SystemAdministrator.findById(id);
+    res.status(200).json({ data: updateSystemAdministrator });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const deleteSystemAdministrator = async (req,res) => {
     try {
         const { id } = req.params;
-        const systemAdministrator = await SystemAdministrator.findById(id);
-        res.status(200).json({ data: systemAdministrator });
+        const systemAdministrator = await SystemAdministrator.findByIdAndDelete(id);
+    
+        if (!systemAdministrator) {
+          return res.status(404).json({ message: "Addministrator not found" });
+        }
+        res.status(200).json({ message: "Addministrator deleted successfully" });
       } catch (error) {
         res.status(500).json({ message: error.message });
       }
 };
-
-const updateSystemAdministrator = async (req,res) => {
-    try {
-        const { id } = req.params;
-        const systemAdministrator = await SystemAdministrator.findByIdAndUpdate(id, req.body);
-    
-        if (!systemAdministrator) {
-          return res.status(404).json({ message: "Product not found" });
-        }
-    
-        const updateSystemAdministrator = await SystemAdministrator.findById(id);
-        res.status(200).json({ data: updateSystemAdministrator });
-      } catch (error) {
-        res.status(500).json({ message: error.message });
-      }
-}
