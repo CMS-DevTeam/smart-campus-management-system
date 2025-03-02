@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "nodemon backend/server.js"
   },
-  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",

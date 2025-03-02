@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const SystemAdministratorSchema = mongoose.Schema(
+const systemAdministratorSchema = mongoose.Schema(
     {
         firstName : {
             type : String,
@@ -55,3 +55,8 @@ const SystemAdministratorSchema = mongoose.Schema(
         timestamps : true
     }
 );
+
+const SystemAdministrator = mongoose.model("SystemAdministrator", systemAdministratorSchema);
+
+
+module.exports  = SystemAdministrator;

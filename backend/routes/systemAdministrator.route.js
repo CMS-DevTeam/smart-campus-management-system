@@ -6,10 +6,12 @@ const {
   createSystemAdministrator,
   updateSystemAdministrator,
   deleteSystemAdministrator,
-} = require("../controllers/systemAdministrator.controller");
+} = require("../controller/systemAdministrator.controller");
 
 router.get("/", getSystemAdministrators);
 router.post("/", createSystemAdministrator);
-router.get("/", getSystemAdministrator);
+router.get("/:id", getSystemAdministrator);
 router.put("/:id", updateSystemAdministrator);
 router.delete("/:id", deleteSystemAdministrator);
+
+module.exports = router;

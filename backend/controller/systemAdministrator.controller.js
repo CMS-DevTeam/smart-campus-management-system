@@ -1,4 +1,4 @@
-const SystemAdministrator = require("../models/systemAdministrator.model");
+const SystemAdministrator = require("../models/systemAdministrator.model.js");
 
 const getSystemAdministrators = async (req, res) => {
   try {
@@ -11,6 +11,7 @@ const getSystemAdministrators = async (req, res) => {
 
 const createSystemAdministrator = async (req, res) => {
   try {
+    console.log("Request Body:", req.body);
     const systemAdministrator = await SystemAdministrator.create(req.body);
     res.status(201).json({ data: systemAdministrator });
   } catch (error) {
@@ -33,8 +34,10 @@ const updateSystemAdministrator = async (req, res) => {
     const { id } = req.params;
     const systemAdministrator = await SystemAdministrator.findByIdAndUpdate(
       id,
-      req.body
+      req.body,
+      { new: true, runValidators: true }
     );
+    console.log("Request Body:", req.body);
 
     if (!systemAdministrator) {
       return res.status(404).json({ message: "Addministrator not found" });

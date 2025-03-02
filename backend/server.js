@@ -1,9 +1,9 @@
-const express = require("express");
-import dotenv from 'dotenv';
-import {connectDB} from './config/db.js';
+const express = require('express');
+const dotenv = require('dotenv');
+const  connectDB  = require('./config/db');
 const systemAdministratorRoute = require('./routes/systemAdministrator.route');
 
-
+dotenv.config();
 
 const app = express();
 
@@ -12,13 +12,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //routes
-app.use("/api/products", productRoute);
+app.use("/api/administrator", systemAdministratorRoute);
+
 
 app.get('/', (req, res) => {
     res.send('Server is ready');
 });
-
-dotenv.config();
 
 app.listen(5000, () => {
     connectDB();
