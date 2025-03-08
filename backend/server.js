@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const systemAdministratorRoute = require("./routes/systemAdministrator.route");
 const studentRoute = require("./routes/student.route");
+const eventRoute = require("./routes/event.route");
+const courseRoute = require("./routes/course.route");
 
 dotenv.config();
 
@@ -15,6 +17,8 @@ app.use(express.urlencoded({ extended: true }));
 //routes
 app.use("/api/administrator", systemAdministratorRoute);
 app.use("/api/student", studentRoute);
+app.use("/api/event", eventRoute);
+app.use("/api/course", courseRoute);
 
 app.get("/", (req, res) => {
   res.send("Server is ready");
