@@ -5,6 +5,8 @@ const systemAdministratorRoute = require("./routes/systemAdministrator.route");
 const studentRoute = require("./routes/student.route");
 const eventRoute = require("./routes/event.route");
 const courseRoute = require("./routes/course.route");
+const courseModuleRoute = require("./routes/courseModule.route");
+const announcement = require("./routes/announcement.route");
 
 dotenv.config();
 
@@ -19,6 +21,9 @@ app.use("/api/administrator", systemAdministratorRoute);
 app.use("/api/student", studentRoute);
 app.use("/api/event", eventRoute);
 app.use("/api/course", courseRoute);
+app.use("/api/courseModule", courseModuleRoute);
+app.use("/api/announcement", announcement);
+
 
 app.get("/", (req, res) => {
   res.send("Server is ready");
