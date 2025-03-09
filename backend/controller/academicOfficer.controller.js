@@ -11,7 +11,7 @@ const getAcademicOfficers = async (req, res) => {
 
 const createAcademicOfficer = async (req, res) => {
   try {
-    console.log(req.body);
+    const academicOfficer = await AcademicOfficer.create(req.body);
     res.status(201).json({ data: academicOfficer });
   } catch (error) {
     res.status(500).json({ message: error.message });

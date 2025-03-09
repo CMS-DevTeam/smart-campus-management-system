@@ -11,7 +11,7 @@ const getResources = async (req, res) => {
 
 const createResource = async (req, res) => {
   try {
-    console.log(req.body);
+    const resource = await Resource.create(req.body);
     res.status(201).json({ data: resource });
   } catch (error) {
     res.status(500).json({ message: error.message });

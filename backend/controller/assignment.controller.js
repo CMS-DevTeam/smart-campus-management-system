@@ -11,7 +11,7 @@ const getAssignments = async (req, res) => {
 
 const createAssignment = async (req, res) => {
   try {
-    console.log(req.body);
+    const assignment = await Assignment.create(req.body);
     res.status(201).json({ data: assignment });
   } catch (error) {
     res.status(500).json({ message: error.message });

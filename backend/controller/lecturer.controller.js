@@ -11,7 +11,7 @@ const getLecturers = async (req, res) => {
 
 const createLecturer = async (req, res) => {
   try {
-    console.log(req.body);
+    const lecturer = await Lecturer.create(req.body);
     res.status(201).json({ data: lecturer });
   } catch (error) {
     res.status(500).json({ message: error.message });
