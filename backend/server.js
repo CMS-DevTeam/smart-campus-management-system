@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const systemAdministratorRoute = require("./routes/systemAdministrator.route");
+const AcademicOfficerRoute = require("./routes/academicOfficer.route")
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //routes
 app.use("/api/administrator", systemAdministratorRoute);
+app.use("/api/academicOfficer", AcademicOfficerRoute);
 
 app.get("/", (req, res) => {
   res.send("Server is ready");
