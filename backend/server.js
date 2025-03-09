@@ -7,6 +7,8 @@ const eventRoute = require("./routes/event.route");
 const courseRoute = require("./routes/course.route");
 const courseModuleRoute = require("./routes/courseModule.route");
 const announcement = require("./routes/announcement.route");
+const notification = require("./routes/notification.route");
+const shedule = require("./routes/shedule.route");
 
 dotenv.config();
 
@@ -23,6 +25,8 @@ app.use("/api/event", eventRoute);
 app.use("/api/course", courseRoute);
 app.use("/api/courseModule", courseModuleRoute);
 app.use("/api/announcement", announcement);
+app.use("/api/notification", notification);
+app.use("/api/shedule", shedule);
 
 
 app.get("/", (req, res) => {
