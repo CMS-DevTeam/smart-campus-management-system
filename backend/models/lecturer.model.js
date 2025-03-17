@@ -38,20 +38,9 @@ const lecturerSchema = mongoose.Schema(
       type: String,
       required: [true, "please enter address"],
     },
-<<<<<<< Updated upstream:backend/models/lecturer.model.js
-=======
-    country: {
-      type: String,
-      required: false,
-    },
->>>>>>> Stashed changes:backend/models/student.model.js
     role: {
       type: String,
-<<<<<<< Updated upstream:backend/models/lecturer.model.js
       required: [true, "please enter role"],
-=======
-      required: false,
->>>>>>> Stashed changes:backend/models/student.model.js
     },
     designation: {
       type: String,
@@ -59,11 +48,7 @@ const lecturerSchema = mongoose.Schema(
     },
     leturerType: {
       type: String,
-<<<<<<< Updated upstream:backend/models/lecturer.model.js
       required: [true, "please enter Lecturer Type"],
-=======
-      required: false,
->>>>>>> Stashed changes:backend/models/student.model.js
     },
     programe: {
       type: String,
