@@ -3,11 +3,21 @@ const dotenv = require("dotenv");
 const cors = require("cors"); 
 const connectDB = require("./config/db");
 const systemAdministratorRoute = require("./routes/systemAdministrator.route");
+<<<<<<< HEAD
 const AcademicOfficerRoute = require("./routes/academicOfficer.route");
 const LecturerRoute = require("./routes/lecturer.route");
 const AssignmentRoute = require("./routes/assignment.route");
 const ResourcesRoute = require("./routes/resource.route");
 const ResultsRoute = require("./routes/result.route");
+=======
+const studentRoute = require("./routes/student.route");
+const eventRoute = require("./routes/event.route");
+const courseRoute = require("./routes/course.route");
+const courseModuleRoute = require("./routes/courseModule.route");
+const announcement = require("./routes/announcement.route");
+const notification = require("./routes/notification.route");
+const shedule = require("./routes/shedule.route");
+>>>>>>> origin/main
 
 dotenv.config();
 

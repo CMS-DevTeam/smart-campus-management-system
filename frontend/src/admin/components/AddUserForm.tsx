@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import React, { useState } from 'react';
 
 // const AddUserForm = () => {
@@ -286,12 +287,16 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { set } from 'mongoose';
 import e from 'express';
+=======
+import React, { useState } from 'react';
+>>>>>>> origin/main
 
 const AddUserForm = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     gender: '',
+<<<<<<< HEAD
     password: '',
     phoneNumber: '',
     email: '',
@@ -406,22 +411,64 @@ const AddUserForm = () => {
   //     // Show error message
   //     alert('Failed to add user. Please try again.');
   //   }
+=======
+    dobDay: '',
+    dobMonth: '',
+    dobYear: '',
+    email: '',
+    password: '',
+    nic: '',
+    phoneNumber: '',
+    addressLine1: '',
+    addressLine2: '',
+    cityState: '',
+    country: '',
+    guardian: '',
+    guardianPhone: '',
+    userRole: '',
+    program: '',
+    optionalModule: ''
+  });
+
+  const handleChange = (e:any) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e:any) => {
+    e.preventDefault();
+    console.log(formData);
+  };
+>>>>>>> origin/main
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-semibold">Add User</h2>
       </div>
+<<<<<<< HEAD
       <form onSubmit={handleOnSubmit} className="space-y-4 mt-4">
+=======
+      <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+>>>>>>> origin/main
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">First Name</label>
             <input
               type="text"
               name="firstName"
+<<<<<<< HEAD
               onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               required
+=======
+              value={formData.firstName}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+>>>>>>> origin/main
             />
           </div>
           <div>
@@ -429,9 +476,15 @@ const AddUserForm = () => {
             <input
               type="text"
               name="lastName"
+<<<<<<< HEAD
               onChange={e => setFormData({ ...formData, lastName: e.target.value })}
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               required
+=======
+              value={formData.lastName}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+>>>>>>> origin/main
             />
           </div>
         </div>
@@ -441,13 +494,20 @@ const AddUserForm = () => {
             <input
               type="text"
               name="gender"
+<<<<<<< HEAD
               onChange={e => setFormData({ ...formData,gender: e.target.value })}
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               required
+=======
+              value={formData.gender}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+>>>>>>> origin/main
             />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Date of Birth</label>
+<<<<<<< HEAD
             <input
               type="date"
               name="dateOfBirth"
@@ -455,6 +515,34 @@ const AddUserForm = () => {
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               required
             />
+=======
+            <div className="flex space-x-2">
+              <input
+                type="number"
+                name="dobDay"
+                value={formData.dobDay}
+                onChange={handleChange}
+                placeholder="Day"
+                className="p-2 w-1/3 border border-gray-300 rounded-md"
+              />
+              <input
+                type="number"
+                name="dobMonth"
+                value={formData.dobMonth}
+                onChange={handleChange}
+                placeholder="Month"
+                className="p-2 w-1/3 border border-gray-300 rounded-md"
+              />
+              <input
+                type="number"
+                name="dobYear"
+                value={formData.dobYear}
+                onChange={handleChange}
+                placeholder="Year"
+                className="p-2 w-1/3 border border-gray-300 rounded-md"
+              />
+            </div>
+>>>>>>> origin/main
           </div>
         </div>
 
@@ -463,20 +551,34 @@ const AddUserForm = () => {
           <input
             type="email"
             name="email"
+<<<<<<< HEAD
             onChange={e => setFormData({ ...formData, email: e.target.value })}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             required
+=======
+            value={formData.email}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+>>>>>>> origin/main
           />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700">Password</label>
           <input
+<<<<<<< HEAD
             type="text"
             name="password"
             onChange={e => setFormData({ ...formData, password: e.target.value })}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             required
+=======
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+>>>>>>> origin/main
           />
         </div>
 
@@ -485,9 +587,15 @@ const AddUserForm = () => {
           <input
             type="text"
             name="nic"
+<<<<<<< HEAD
             onChange={e => setFormData({ ...formData, nic: e.target.value })}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             required
+=======
+            value={formData.nic}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+>>>>>>> origin/main
           />
         </div>
 
@@ -496,13 +604,20 @@ const AddUserForm = () => {
           <input
             type="text"
             name="phoneNumber"
+<<<<<<< HEAD
             onChange={e => setFormData({ ...formData, phoneNumber: e.target.value })}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             required
+=======
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+>>>>>>> origin/main
           />
         </div>
 
         <div>
+<<<<<<< HEAD
           <label className="block text-sm font-medium text-gray-700">Address</label>
           <input
             type="text"
@@ -510,6 +625,37 @@ const AddUserForm = () => {
             onChange={e => setFormData({ ...formData, address: e.target.value })}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             required
+=======
+          <label className="block text-sm font-medium text-gray-700">Address Line 1</label>
+          <input
+            type="text"
+            name="addressLine1"
+            value={formData.addressLine1}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Address Line 2</label>
+          <input
+            type="text"
+            name="addressLine2"
+            value={formData.addressLine2}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">City/State</label>
+          <input
+            type="text"
+            name="cityState"
+            value={formData.cityState}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+>>>>>>> origin/main
           />
         </div>
 
@@ -517,6 +663,7 @@ const AddUserForm = () => {
           <label className="block text-sm font-medium text-gray-700">Country</label>
           <select
             name="country"
+<<<<<<< HEAD
             onChange={e => setFormData({ ...formData, country: e.target.value })}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
           >
@@ -524,6 +671,14 @@ const AddUserForm = () => {
             <option value="Sri Lanka">Sri Lanka</option>
             <option value="India">India</option>
             <option value="USA">USA</option>
+=======
+            value={formData.country}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+          >
+            <option value="">Select Country</option>
+            {/* Add country options here */}
+>>>>>>> origin/main
           </select>
         </div>
 
@@ -532,12 +687,18 @@ const AddUserForm = () => {
           <input
             type="text"
             name="guardian"
+<<<<<<< HEAD
             onChange={e => setFormData({ ...formData, guardian: e.target.value })}
+=======
+            value={formData.guardian}
+            onChange={handleChange}
+>>>>>>> origin/main
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
           />
         </div>
 
         <div>
+<<<<<<< HEAD
           <label className="block text-sm font-medium text-gray-700">Immediate Contact Number</label>
           <input
             type="text"
@@ -554,6 +715,14 @@ const AddUserForm = () => {
             type="text"
             name="relationship"
             onChange={e => setFormData({ ...formData, relationship: e.target.value })}
+=======
+          <label className="block text-sm font-medium text-gray-700">Guardian's Phone Number</label>
+          <input
+            type="text"
+            name="guardianPhone"
+            value={formData.guardianPhone}
+            onChange={handleChange}
+>>>>>>> origin/main
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
           />
         </div>
@@ -561,6 +730,7 @@ const AddUserForm = () => {
         <div>
           <label className="block text-sm font-medium text-gray-700">User Role</label>
           <select
+<<<<<<< HEAD
             name="role"
             onChange={e => setFormData({ ...formData, role: e.target.value })}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
@@ -571,12 +741,22 @@ const AddUserForm = () => {
             <option value="Lecturer">Lecturer</option>
             <option value="Admin">Admin</option>
             <option value="Academic Officer">Academic Officer</option>
+=======
+            name="userRole"
+            value={formData.userRole}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+          >
+            <option value="">Select User Role</option>
+            {/* Add user role options here */}
+>>>>>>> origin/main
           </select>
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700">Programme</label>
           <select
+<<<<<<< HEAD
             name="programme"
             onChange={e => setFormData({ ...formData, programme: e.target.value })}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
@@ -586,6 +766,15 @@ const AddUserForm = () => {
             <option value="Computer Science in Software Engineering">
               Computer Science in Software Engineering
             </option>
+=======
+            name="program"
+            value={formData.program}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+          >
+            <option value="">Select Programme</option>
+            {/* Add program options here */}
+>>>>>>> origin/main
           </select>
         </div>
 
@@ -593,6 +782,7 @@ const AddUserForm = () => {
           <label className="block text-sm font-medium text-gray-700">Optional Module</label>
           <select
             name="optionalModule"
+<<<<<<< HEAD
             onChange={e => setFormData({ ...formData, optionalModule: e.target.value })}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             required
@@ -600,6 +790,14 @@ const AddUserForm = () => {
             <option value="">Select Module</option>
             <option value="Mobile">Mobile</option>
             <option value="Advance Data Modeling">Advance Data Modeling</option>
+=======
+            value={formData.optionalModule}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+          >
+            <option value="">Select Optional Module</option>
+            {/* Add module options here */}
+>>>>>>> origin/main
           </select>
         </div>
 
@@ -622,4 +820,8 @@ const AddUserForm = () => {
   );
 };
 
+<<<<<<< HEAD
 export default AddUserForm;
+=======
+export default AddUserForm;
+>>>>>>> origin/main
