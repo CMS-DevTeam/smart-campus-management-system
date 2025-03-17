@@ -9,11 +9,14 @@ import AdminDashboard from "./admin/dashboard";
 import ProtectedRoute from "./admin/components/ProtectedRoute";
 import { ModalProvider } from "./context/ModalContext";
 import ModalComponent from "./components/modal";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App: React.FC = () => {
   return (
     <ModalProvider>
       <ModalComponent />
+      <ToastContainer />
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
