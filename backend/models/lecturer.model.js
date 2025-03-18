@@ -38,15 +38,15 @@ const lecturerSchema = mongoose.Schema(
       type: String,
       required: [true, "please enter address"],
     },
-    role: {
-      type: String,
-      required: [true, "please enter role"],
-    },
-    designation: {
-      type: String,
-      required: [true, "please enter designation"],
-    },
-    leturerType: {
+    // role: {
+    //   type: String,
+    //   required: [true, "please enter role"],
+    // },
+    // designation: {
+    //   type: String,
+    //   required: [true, "please enter designation"],
+    // },
+    country: {
       type: String,
       required: [true, "please enter Lecturer Type"],
     },
