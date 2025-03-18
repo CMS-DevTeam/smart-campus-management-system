@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import InputField from '@components/input';
+import SelectField from '@components/select';
 
 const AddUserForm = () => {
   const [formData, setFormData] = useState({
@@ -64,167 +66,117 @@ const AddUserForm = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg">
       <h2 className="text-2xl font-semibold text-center mb-4">Add Student</h2>
       <form onSubmit={handleOnSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/** First Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              First Name
-            </label>
-            <input
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* First Name */}
+        <InputField
+          label="First Name"
+          name="firstName"
+          value={formData.firstName}
+          onChange={handleChange}
+          type="text"
+          required
+        />
 
-          {/** Last Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Last Name
-            </label>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+        {/* Last Name */}
+        <InputField
+          label="Last Name"
+          name="lastName"
+          value={formData.lastName}
+          onChange={handleChange}
+          type="text"
+          required
+        />
 
-          {/** Gender */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Gender
-            </label>
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
+        {/* Gender */}
+        <SelectField
+          label="Gender"
+          name="gender"
+          value={formData.gender}
+          onChange={handleChange}
+          options={[
+            { value: 'Male', label: 'Male' },
+            { value: 'Female', label: 'Female' },
+            { value: 'Other', label: 'Other' },
+          ]}
+          required
+        />
 
-          {/** Password */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              type="text"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+        {/* Password */}
+        <InputField
+          label="Password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          type="password"
+          required
+        />
 
-          {/** Phone Number */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              name="phoneNumber"
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+        {/* Phone Number */}
+        <InputField
+          label="Phone Number"
+          name="phoneNumber"
+          value={formData.phoneNumber}
+          onChange={handleChange}
+          type="tel"
+          required
+        />
 
-          {/** Email */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+        {/* Email */}
+        <InputField
+          label="Email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          type="email"
+          required
+        />
 
-          {/** Date of Birth */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Date of Birth
-            </label>
-            <input
-              type="date"
-              name="dateOfBirth"
-              value={formData.dateOfBirth}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+        {/* Date of Birth */}
+        <InputField
+          label="Date of Birth"
+          name="dateOfBirth"
+          value={formData.dateOfBirth}
+          onChange={handleChange}
+          type="date"
+          required
+        />
 
-          {/** NIC */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              NIC
-            </label>
-            <input
-              type="text"
-              name="nic"
-              value={formData.nic}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+        {/* NIC */}
+        <InputField
+          label="NIC"
+          name="nic"
+          value={formData.nic}
+          onChange={handleChange}
+          type="text"
+          required
+        />
 
-          {/** Address */}
-          <div className="col-span-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Address
-            </label>
-            <input
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+        {/* Address */}
+        <InputField
+          label="Address"
+          name="address"
+          value={formData.address}
+          onChange={handleChange}
+          type="text"
+          required
+        />
 
-          {/** Country */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Country
-            </label>
-            <select
-              name="country"
-              value={formData.country}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            >
-              <option value="">Select Country</option>
-              <option value="srilanka">Sri lanka</option>
-              <option value="india">India</option>
-              <option value="uk">UK</option>
-            </select>
-          </div>
+        {/* Country */}
+        <SelectField
+          label="Country"
+          name="country"
+          value={formData.country}
+          onChange={handleChange}
+          options={[
+            { value: 'srilanka', label: 'Sri Lanka' },
+            { value: 'india', label: 'India' },
+            { value: 'uk', label: 'UK' },
+          ]}
+          required
+        />
 
           {/** Role */}
           {/* <div>
@@ -245,97 +197,66 @@ const AddUserForm = () => {
             </select>
           </div> */}
 
-          {/** Programme */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Programme
-            </label>
-            <select
-              name="programme"
-              value={formData.programme}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            >
-              <option value="">Select Programme</option>
-              <option value="cse">
-                Computer Science in Software Engineering
-              </option>
-              <option value="cs">Computer Science</option>
-              <option value="it">Information Technology</option>
-              <option value="se">Software Engineering</option>
-            </select>
-          </div>
+        {/* Programme */}
+        <SelectField
+          label="Programme"
+          name="programme"
+          value={formData.programme}
+          onChange={handleChange}
+          options={[
+            { value: 'cse', label: 'Computer Science in Software Engineering' },
+            { value: 'cs', label: 'Computer Science' },
+            { value: 'it', label: 'Information Technology' },
+            { value: 'se', label: 'Software Engineering' },
+          ]}
+          required
+        />
 
-          {/** Optional Module */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Optional Module
-            </label>
-            <select
-              name="optionalModule"
-              value={formData.optionalModule}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            >
-              <option value="">Select Optional Module</option>
-              <option value="mobile">
-                Mobile
-              </option>
-            </select>
-          </div>
+        {/* Optional Module */}
+        <SelectField
+          label="Optional Module"
+          name="optionalModule"
+          value={formData.optionalModule}
+          onChange={handleChange}
+          options={[{ value: 'mobile', label: 'Mobile' }]}
+          required
+        />
 
-          {/** Guardian Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Guardian
-            </label>
-            <input
-              type="text"
-              name="guardian"
-              value={formData.guardian}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-            />
-          </div>
+        {/* Guardian */}
+        <InputField
+          label="Guardian"
+          name="guardian"
+          value={formData.guardian}
+          onChange={handleChange}
+          type="text"
+        />
 
-          {/** Guardian Contact */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Immediate Contact Number
-            </label>
-            <input
-              type="tel"
-              name="immediateContactNumber"
-              value={formData.immediateContactNumber}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-            />
-          </div>
+        {/* Immediate Contact Number */}
+        <InputField
+          label="Immediate Contact Number"
+          name="immediateContactNumber"
+          value={formData.immediateContactNumber}
+          onChange={handleChange}
+          type="tel"
+        />
 
-          {/** Relationship */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Relationship
-            </label>
-            <input
-              type="text"
-              name="relationship"
-              value={formData.relationship}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-            />
-          </div>
-        </div>
+        {/* Relationship */}
+        <InputField
+          label="Relationship"
+          name="relationship"
+          value={formData.relationship}
+          onChange={handleChange}
+          type="text"
+        />
+      </div>
 
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-md mt-4"
-        >
-          Add User
-        </button>
-      </form>
+      <button
+        type="submit"
+        className="px-4 py-2 bg-blue-500 text-white rounded-md mt-4"
+      >
+        Add Student
+      </button>
+    </form>
     </div>
   );
 };
