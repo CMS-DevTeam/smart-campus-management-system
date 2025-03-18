@@ -19,22 +19,20 @@ const AddUserForm = ({role}:AddUserProps) => {
     nic: "",
     address: "",
     country: "",
+    programe: "",
     module: "",
-    programme: "",
-    lecturerType: "",
-    designation: "",
-    academicQualifications: "",
-    otherQualifications: "",
+    academicQualification: "",
+    otherQualification: ""
   });
 
   const handleOnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:9001/api/student",
+        "http://localhost:9001/api/lecturer",
         formData
       );
-      toast.success("User added successfully!", {
+      toast.success("Lecturer added successfully!", {
         position: "top-right", 
         hideProgressBar: false,
         closeOnClick: true,
@@ -43,7 +41,7 @@ const AddUserForm = ({role}:AddUserProps) => {
         progress: undefined,
       });
 
-      console.log("User added:", response.data);
+      console.log("Lecturer added:", response.data);
     } catch (error) {
       toast.error("Failed to add user. Please try again.", {
         position: "top-right",
