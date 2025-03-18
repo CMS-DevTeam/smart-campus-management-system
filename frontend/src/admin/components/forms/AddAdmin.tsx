@@ -25,10 +25,10 @@ const AddUserForm = ({role}:AddUserProps) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:9001/api/student",
+        "http://localhost:5000/api/administrator",
         formData
       );
-      toast.success("User added successfully!", {
+      toast.success("administrator added successfully!", {
         position: "top-right", 
         hideProgressBar: false,
         closeOnClick: true,
@@ -37,9 +37,9 @@ const AddUserForm = ({role}:AddUserProps) => {
         progress: undefined,
       });
 
-      console.log("User added:", response.data);
+      console.log("administrator added:", response.data);
     } catch (error) {
-      toast.error("Failed to add user. Please try again.", {
+      toast.error("Failed to add administrator. Please try again.", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -48,7 +48,7 @@ const AddUserForm = ({role}:AddUserProps) => {
         draggable: true,
         progress: undefined,
       });
-      console.error("There was an error creating the student:", error);
+      console.error("There was an error creating the administrator:", error);
     }
   };
 
