@@ -3,11 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-type AddUserProps = {
-  role?:string;
-}
-
-const AddUserForm = ({role}:AddUserProps) => {
+const AddUserForm = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -70,7 +66,7 @@ const AddUserForm = ({role}:AddUserProps) => {
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-semibold text-center mb-4">Add User</h2>
+      <h2 className="text-2xl font-semibold text-center mb-4">Add Student</h2>
       <form onSubmit={handleOnSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/** First Name */}

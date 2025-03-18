@@ -3,8 +3,10 @@ import { Search, Pencil, Eye, Trash, ChevronLeft, User, Plus } from "lucide-reac
 import Courses from '@mui/icons-material/CastForEducationRounded';
 import Events from '@mui/icons-material/DateRangeRounded';
 import Announcement from '@mui/icons-material/CampaignRounded';
-import AddUserForm from "../components/AddUserForm";
-
+import AddAdmin from "../components/forms/AddAdmin";
+import AddStudent from "../components/forms/AddStudent";
+import AddLecturer from "../components/forms/AddLecturer";
+import AddAcademicOfficer from "../components/forms/AddAcademicOfficer";
 import { useModal } from "../../context/ModalContext";
 
 const AdminPanel = () => {
@@ -14,8 +16,10 @@ const AdminPanel = () => {
     { firstName: "Chamara", lastName: "Madushanka", email: "chamara.rambuka@gmail.com", role: "Admin", status: "Active" },
     { firstName: "Chamara", lastName: "Madushanka", email: "chamara.rambuka@gmail.com", role: "Admin", status: "Active" },
   ]);
-
+  
+  const [selectedRole, setSelectedRole] = useState("Admin");
   const [isOpen, setIsOpen] = useState(false);
+  
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
@@ -26,7 +30,7 @@ const AdminPanel = () => {
   const { openModal } = useModal();
 
   const renderDropdown = () => {
-    return(
+    return (
       <>
         {isOpen && (
           <div className="absolute right-0 mt-[140px] w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
@@ -46,12 +50,30 @@ const AdminPanel = () => {
           </div>
         )}
       </>
-    )
-  }
+    );
+  };
+
+  const handleRoleChange = (e:any) => {
+    setSelectedRole(e.target.value);
+  };
+
+  const getModalContent = () => {
+    switch (selectedRole) {
+      case "Admin":
+        return <AddAdmin />;
+      case "Student":
+        return <AddStudent />;
+      case "Lecturer":
+        return <AddLecturer />;
+      case "AcademicOfficer":
+        return <AddAcademicOfficer />;
+      default:
+        return <AddStudent />;
+    }
+  };
 
   return (
     <div className="flex h-screen">
-      {/* Sidebar */}
       <aside className="w-64 bg-gray-900 text-white p-4">
         <div className="flex items-center justify-left mb-6">
           <img src="images/logo.png" alt="Logo" className="w-auto h-10" />
@@ -65,18 +87,31 @@ const AdminPanel = () => {
         </nav>
       </aside>
 
-      {/* Main Content */}
       <div className="flex-1 bg-gray-100 p-6">
-        {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <button className="flex items-center text-gray-600 hover:text-gray-900">
             <ChevronLeft size={24} />
             <span className="ml-2 text-lg font-semibold">Users</span>
           </button>
           <div className="flex items-center space-x-4 relative">
-            <button onClick={() => openModal(<AddUserForm />)} className="bg-[#006489] cursor-pointer text-white px-4 py-2 rounded flex items-center">
-              <Plus size={18} className="mr-2" /> Add User
-            </button>
+            <div className="flex items-center space-x-4">
+              <select 
+                value={selectedRole} 
+                onChange={handleRoleChange} 
+                className="p-2 border rounded"
+              >
+                <option value="Admin">Admin</option>
+                <option value="Student">Student</option>
+                <option value="Lecturer">Lecturer</option>
+                <option value="AcademicOfficer">Academic Officer</option>
+              </select>
+              <button 
+                onClick={() => openModal(getModalContent())} 
+                className="bg-[#006489] cursor-pointer text-white px-4 py-2 rounded flex items-center"
+              >
+                <Plus size={18} className="mr-2" /> Add User
+              </button>
+            </div>
             <div onClick={toggleMenu} className="flex items-center space-x-2 bg-white p-2 px-4 rounded-full shadow-md cursor-pointer mr-0">
               <User size={18} />
               <span>Chamara</span>
@@ -142,12 +177,12 @@ const AdminPanel = () => {
 };
 
 const NavItem = ({ icon, text, active }: { icon: React.ReactNode; text: string; active?: boolean }) => {
-    return (
-      <div className={`flex items-center space-x-2 p-2 rounded cursor-pointer ${active ? "bg-[#006489]" : "hover:bg-gray-800"}`}>
-        {icon}
-        <span>{text}</span>
-      </div>
-    );
+  return (
+    <div className={`flex items-center space-x-2 p-2 rounded cursor-pointer ${active ? "bg-[#006489]" : "hover:bg-gray-800"}`}>
+      {icon}
+      <span>{text}</span>
+    </div>
+  );
 };
 
 export default AdminPanel;
