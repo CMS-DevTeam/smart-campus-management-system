@@ -19,12 +19,12 @@ const AddUserForm = ({role}:AddUserProps) => {
     nic: "",
     address: "",
     country: "",
-    role: "",
+    module: "",
     programme: "",
-    optionalModule: "",
-    guardian: "",
-    immediateContactNumber: "",
-    relationship: "",
+    lecturerType: "",
+    designation: "",
+    academicQualifications: "",
+    otherQualifications: "",
   });
 
   const handleOnSubmit = async (e: React.FormEvent) => {
@@ -70,7 +70,7 @@ const AddUserForm = ({role}:AddUserProps) => {
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-semibold text-center mb-4">Add User</h2>
+      <h2 className="text-2xl font-semibold text-center mb-4">Add Lecturer</h2>
       <form onSubmit={handleOnSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/** First Name */}
@@ -231,25 +231,6 @@ const AddUserForm = ({role}:AddUserProps) => {
             </select>
           </div>
 
-          {/** Role */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Role
-            </label>
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            >
-              <option value="">Select Role</option>
-              <option value="Student">Student</option>
-              <option value="Lecturer">Lecturer</option>
-              <option value="Admin">Admin</option>
-            </select>
-          </div>
-
           {/** Programme */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
@@ -272,62 +253,62 @@ const AddUserForm = ({role}:AddUserProps) => {
             </select>
           </div>
 
-          {/** Optional Module */}
+          {/** Module */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Optional Module
+              Module
             </label>
             <select
-              name="optionalModule"
-              value={formData.optionalModule}
+              name="module"
+              value={formData.module}
               onChange={handleChange}
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               required
             >
-              <option value="">Select Optional Module</option>
-              <option value="mobile">
-                Mobile
-              </option>
+              <option value="">Select Module</option>
+              <option value="Module 1">Module 1</option>
+              <option value="Module 2">Module 2</option>
             </select>
           </div>
 
-          {/** Guardian Name */}
+          {/** Designation */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Guardian
+              Designation
             </label>
             <input
               type="text"
-              name="guardian"
-              value={formData.guardian}
+              name="designation"
+              value={formData.designation}
               onChange={handleChange}
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             />
           </div>
 
-          {/** Guardian Contact */}
+          {/** Academic Qualifications */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Immediate Contact Number
+              Academic Qualifications
             </label>
             <input
-              type="tel"
-              name="immediateContactNumber"
-              value={formData.immediateContactNumber}
+              type="textarea"
+              
+              name="academicQualifications"
+              value={formData.academicQualifications}
               onChange={handleChange}
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             />
           </div>
 
-          {/** Relationship */}
+          {/** Other Qualifications */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Relationship
+              Other Qualifications
             </label>
             <input
-              type="text"
-              name="relationship"
-              value={formData.relationship}
+              type="textarea"
+              name="otherQualifications"
+              value={formData.otherQualifications}
               onChange={handleChange}
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             />
@@ -338,7 +319,7 @@ const AddUserForm = ({role}:AddUserProps) => {
           type="submit"
           className="px-4 py-2 bg-blue-500 text-white rounded-md mt-4"
         >
-          Add User
+          Add Lecturer
         </button>
       </form>
     </div>
