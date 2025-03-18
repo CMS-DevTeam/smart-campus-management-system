@@ -58,6 +58,10 @@ const lecturerSchema = mongoose.Schema(
       type: String,
       required: [true, "please enter module"],
     },
+    designation: {
+        type: String,
+        required: [true, "please enter designation"],
+      },
     academicQualification: {
       type: String,
       required: false,

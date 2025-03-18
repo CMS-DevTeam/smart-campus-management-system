@@ -21,15 +21,16 @@ const AddUserForm = ({role}:AddUserProps) => {
     country: "",
     programe: "",
     module: "",
-    academicQualification: "",
-    otherQualification: ""
+    designation:"",
+    academicqualification: "",
+    otherqualification: ""
   });
 
   const handleOnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:9001/api/lecturer",
+        "http://localhost:5000/api/lecturer",
         formData
       );
       toast.success("Lecturer added successfully!", {
@@ -43,7 +44,7 @@ const AddUserForm = ({role}:AddUserProps) => {
 
       console.log("Lecturer added:", response.data);
     } catch (error) {
-      toast.error("Failed to add user. Please try again.", {
+      toast.error("Failed to add Lecturer. Please try again.", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -52,12 +53,12 @@ const AddUserForm = ({role}:AddUserProps) => {
         draggable: true,
         progress: undefined,
       });
-      console.error("There was an error creating the student:", error);
+      console.error("There was an error creating the Lecturer:", error);
     }
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -235,8 +236,8 @@ const AddUserForm = ({role}:AddUserProps) => {
               Programme
             </label>
             <select
-              name="programme"
-              value={formData.programme}
+              name="programe"
+              value={formData.programe}
               onChange={handleChange}
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               required
@@ -288,11 +289,9 @@ const AddUserForm = ({role}:AddUserProps) => {
             <label className="block text-sm font-medium text-gray-700">
               Academic Qualifications
             </label>
-            <input
-              type="textarea"
-              
-              name="academicQualifications"
-              value={formData.academicQualifications}
+            <textarea
+              name="academicqualification"
+              value={formData.academicqualification}
               onChange={handleChange}
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             />
@@ -303,10 +302,9 @@ const AddUserForm = ({role}:AddUserProps) => {
             <label className="block text-sm font-medium text-gray-700">
               Other Qualifications
             </label>
-            <input
-              type="textarea"
-              name="otherQualifications"
-              value={formData.otherQualifications}
+            <textarea
+              name="otherqualification"
+              value={formData.otherqualification}
               onChange={handleChange}
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
             />
