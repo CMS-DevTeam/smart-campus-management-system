@@ -1,27 +1,38 @@
-import React from "react";
+import React from 'react';
 
-interface InputProps {
+type InputFieldProps = {
   label?: string;
-  type?: string;
+  name?: string;
+  value: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  type: string;
+  required?: boolean;
   placeholder?: string;
-  value?: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  className?: string;
-}
+};
 
-const Input: React.FC<InputProps> = ({ label, type = "text", placeholder, value, onChange, className }) => {
+const InputField: React.FC<InputFieldProps> = ({
+  label,
+  name,
+  value,
+  onChange,
+  type,
+  required = false,
+  placeholder
+}) => {
   return (
-    <div className="flex flex-col space-y-1">
-      {label && <label className="text-gray-700 font-medium">{label}</label>}
+    <div>
+      <label className="block text-sm font-medium text-gray-700">{label}</label>
       <input
         type={type}
-        placeholder={placeholder}
+        name={name}
         value={value}
         onChange={onChange}
-        className={`border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
+        className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+        required={required}
+        placeholder={placeholder}
       />
     </div>
   );
 };
 
-export default Input;
+export default InputField;

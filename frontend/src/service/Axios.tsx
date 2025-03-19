@@ -1,9 +1,10 @@
 import axios, { AxiosInstance } from "axios";
+import config from "@/config";
 
 const token: string | null = localStorage.getItem("iap-token");
 
 const instance: AxiosInstance = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: config.BASE_URL + "/api",
   headers: {
     Authorization: token ? `Bearer ${token}` : "",
     "Content-Type": "application/json",

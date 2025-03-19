@@ -3,11 +3,14 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-type AddUserProps = {
-  role?:string;
+import config from "../../../config";
+import { useModal } from "../../../context/ModalContext"
+
+type AddLecturerProps = {
+  user?: any;
 }
 
-const AddUserForm = ({role}:AddUserProps) => {
+const AddUserForm = ({user}:AddLecturerProps) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -26,11 +29,13 @@ const AddUserForm = ({role}:AddUserProps) => {
     otherqualification: ""
   });
 
+  const {openModal, closeModal} = useModal();
+
   const handleOnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/lecturer",
+        config.BASE_URL + "/api/lecturer",
         formData
       );
       toast.success("Lecturer added successfully!", {
@@ -68,8 +73,7 @@ const AddUserForm = ({role}:AddUserProps) => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-semibold text-center mb-4">Add Lecturer</h2>
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg">
       <form onSubmit={handleOnSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/** First Name */}
@@ -311,12 +315,20 @@ const AddUserForm = ({role}:AddUserProps) => {
           </div>
         </div>
 
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-md mt-4"
-        >
-          Add Lecturer
-        </button>
+        <div className="absolute w-full bottom-0 flex gap-2 justify-end">
+          <button
+            onClick={closeModal}
+            className="cursor-pointer px-4 py-2 text-sky-800 bg-white rounded-md mt-4 border border-sky-800"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="cursor-pointer px-4 py-2 bg-sky-800 text-white rounded-md mt-4"
+          >
+            Add User
+          </button>
+        </div>
       </form>
     </div>
   );

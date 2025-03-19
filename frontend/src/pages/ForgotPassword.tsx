@@ -31,14 +31,14 @@ const ForgotPassword = () => {
 
           <button
             type="submit"
-            className="w-full bg-[#006489] text-white font-semibold p-3 rounded-md transition cursor-pointer"
+            className="w-full bg-sky-800 text-white font-semibold p-3 rounded-md transition cursor-pointer"
           >
             Send Email
           </button>
         </form>
 
         <div className="mt-4 text-center">
-          <Link to="/login" className="text-[#006489] hover:underline flex items-center justify-center">
+          <Link to="/login" className="text-sky-800 hover:underline flex items-center justify-center">
             &larr; Back to Login
           </Link>
         </div>
