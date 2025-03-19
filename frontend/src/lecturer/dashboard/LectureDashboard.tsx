@@ -67,7 +67,7 @@ const Dashboard = () => {
 
         <h2 className="text-xl font-semibold mb-4">Vidusha Lakshan</h2>
 
-        <div className="grid grid-cols-2 gap-4 max-w-md">
+        <div className="grid  gap-15 max-w-[600px]">
           {["Resources", "Schedule", "Event", "Announcement"].map((item) => (
             <button
               key={item}
