@@ -15,7 +15,6 @@ const AddUserForm = () => {
     nic: "",
     address: "",
     country: "",
-    role: "",
     programme: "",
     optionalModule: "",
     guardian: "",
@@ -27,10 +26,10 @@ const AddUserForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:9001/api/student",
+        "http://localhost:5000/api/student",
         formData
       );
-      toast.success("User added successfully!", {
+      toast.success("student added successfully!", {
         position: "top-right", 
         hideProgressBar: false,
         closeOnClick: true,
@@ -39,9 +38,9 @@ const AddUserForm = () => {
         progress: undefined,
       });
 
-      console.log("User added:", response.data);
+      console.log("student added:", response.data);
     } catch (error) {
-      toast.error("Failed to add user. Please try again.", {
+      toast.error("Failed to add student. Please try again.", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -228,7 +227,7 @@ const AddUserForm = () => {
           </div>
 
           {/** Role */}
-          <div>
+          {/* <div>
             <label className="block text-sm font-medium text-gray-700">
               Role
             </label>
@@ -244,7 +243,7 @@ const AddUserForm = () => {
               <option value="Lecturer">Lecturer</option>
               <option value="Admin">Admin</option>
             </select>
-          </div>
+          </div> */}
 
           {/** Programme */}
           <div>

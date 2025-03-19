@@ -38,10 +38,6 @@ const systemAdministratorSchema = mongoose.Schema(
       type: String,
       required: [true, "please enter address"],
     },
-    role: {
-      type: String,
-      required: [true, "please enter role"],
-    },
     country: {
       type: String,
       required: [true, "please enter country"],
