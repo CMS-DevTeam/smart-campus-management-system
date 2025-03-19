@@ -2369,6 +2369,16 @@
     lightningcss "1.29.2"
     tailwindcss "4.0.14"
 
+"@tailwindcss/vite@^4.0.14":
+  version "4.0.14"
+  resolved "https://registry.yarnpkg.com/@tailwindcss/vite/-/vite-4.0.14.tgz#9d02b8925ce6eab307494d05e024566be0c205dd"
+  integrity sha512-y69ztPTRFy+13EPS/7dEFVl7q2Goh1pQueVO8IfGeyqSpcx/joNJXFk0lLhMgUbF0VFJotwRSb9ZY7Xoq3r26Q==
+  dependencies:
+    "@tailwindcss/node" "4.0.14"
+    "@tailwindcss/oxide" "4.0.14"
+    lightningcss "1.29.2"
+    tailwindcss "4.0.14"
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.npmjs.org/@tootallnate/once/-/once-1.1.2.tgz"
@@ -5471,9 +5481,10 @@ fresh@0.5.2:
     "@mui/icons-material" "^6.4.7"
     "@mui/material" "^6.4.7"
     "@tailwindcss/vite" "^4.0.13"
+    axios "^1.8.3"
     clsx "^2.1.1"
     concurrently "^9.1.2"
-    frontend "file:../../../../Library/Caches/Yarn/v6/npm-frontend-0.0.0-ebdbf293-f422-4276-8c65-2d5260b02e07-1742228133882/node_modules/frontend"
+    frontend "file:../../../../AppData/Local/Yarn/Cache/v6/npm-frontend-0.0.0-62b73f59-8db8-4a71-b4b6-6e3cd1e52a92-1742313829961/node_modules/frontend"
     lucide-react "^0.479.0"
     react "^19.0.0"
     react-dom "^19.0.0"
