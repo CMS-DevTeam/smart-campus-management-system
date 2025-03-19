@@ -5,17 +5,12 @@ import Events from '@mui/icons-material/DateRangeRounded';
 import Announcement from '@mui/icons-material/CampaignRounded';
 import { useModal } from "../../context/ModalContext";
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from "react-router-dom";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
-const StudentPanel = () => {
+const EventsPage = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const navigate = useNavigate();
-  const events = [
-  { id: 1, title: "Course Material" },
-  { id: 2, title: "Assignment" },
-];
-  const [selectedRole, setSelectedRole] = useState("Admin");
+  
+  const [selectedRole, setSelectedRole] = useState("Announcement");
   const [isOpen, setIsOpen] = useState(false);
   
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -67,20 +62,14 @@ const StudentPanel = () => {
         </div>
         <nav className="space-y-4">
             <Link to="/">
-            <NavItem icon={<User size={18} />} text="Dashboard" active />
+            <NavItem icon={<User size={18} />} text="Dashboard"  />
             </Link>
-            <Link to="/CoursesPage">
             <NavItem icon={<Courses />} text="Courses" />
-            </Link>
           <Link to="/Events">
-          <NavItem icon={<Events />} text="Events"/>
+          <NavItem icon={<Events />} text="Events" active/>
           </Link>
-          <Link to="/Announcemet">
           <NavItem icon={<Announcement />} text="Announcements" />
-          </Link>
-          <Link to="/Results">
           <NavItem icon={<Search size={18} />} text="Results" />
-          </Link>
         </nav>
       </aside>
 
@@ -88,14 +77,11 @@ const StudentPanel = () => {
         <div className="flex justify-between items-center mb-6">
           <button className="flex items-center text-gray-600 hover:text-gray-900">
             <ChevronLeft size={24} />
-            <div className="grid grid-cols-2 p-6">
-            <span className="text-lg font-semibold">Good Morning</span>
-            <span className="text-lg font-semibold text-right">B.A.K.M.Dias</span>
-            </div>
+            <span className="ml-2 text-lg font-semibold">Events Forms</span>
           </button>
           <div className="flex items-center space-x-4 relative">
             
-
+            
             
             <div onClick={toggleMenu} className="flex items-center space-x-2 bg-white p-2 px-4 rounded-full shadow-md cursor-pointer mr-0">
               <User size={18} />
@@ -106,34 +92,34 @@ const StudentPanel = () => {
 
           
         </div>
-        <div className="p-2 w-full flex flex-col items-left">
-      {events.map((event, index) => (
-        <div
-          key={event.id}
-          className={`border rounded-lg p-6 w-2xl ${index === 0 ? "h-34" : "h-32"} bg-gray-100 flex justify-between items-center mt-4`}
-        >
-          <span>{event.title}</span>
-         
-        </div>
         
-      ))}
+        <div className="p-4 border rounded-lg shadow-lg bg-white w-1/2 mx-auto mt-10">
+        <h2 className="text-xl font-bold mb-4">Event Details</h2>
+        <div className="flex items-center space-x-4">
+          <div className="w-50 h-50 bg-gray-300 full"></div>
+          {/* <button className="bg-blue-500 text-white px-3 py-1 rounded">Update Profile Image</button> */}
+        </div>
+        <div className="mt-4">
+          <p><strong>Name:</strong> John Doe</p>
+          <p><strong>Address:</strong> 123 Street, City</p>
+          <p><strong>Birthday:</strong> 01/01/2000</p>
+          <p><strong>Contact No:</strong> +1234567890</p>
+          <p><strong>Email:</strong> johndoe@example.com</p>
+          <p><strong>Course Name:</strong> Computer Science</p>
+        </div>
+        {/* <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded">Update</button> */}
+        {/* <button onClick={onBack} className="mt-4 ml-4 bg-gray-500 text-white px-4 py-2 rounded">
+          Back
+        </button> */}
+      </div>
+        </div>
+      
       
     </div>
     
-      </div>
-      <div className="bg-white p-6 rounded-lg shadow-lg w-80">
-      <h2 className="text-lg font-bold mb-2">📅 Select a Date</h2>
-      <DatePicker 
-        selected={selectedDate}
-        onChange={(date: Date | null) => setSelectedDate(date)}
-        dateFormat="MMMM d, yyyy"
-        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <p className="mt-4 text-gray-700">
-        Selected Date: <strong>{selectedDate?.toDateString()}</strong>
-      </p>
-    </div>
-    </div>
+      
+
+    
   );
 };
 
@@ -146,4 +132,4 @@ const NavItem = ({ icon, text, active }: { icon: React.ReactNode; text: string; 
   );
 };
 
-export default StudentPanel;
+export default EventsPage;
