@@ -2,22 +2,17 @@ import { useState } from "react";
 import { Calendar } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import {
+  LayoutDashboard,
   User,
   BookOpen,
-  CalendarDays,
-  Megaphone,
   FolderOpen,
-  BarChart,
-  Bell, // Notification Icon Added
+  Bell,
 } from "lucide-react";
 
 const menuItems = [
-  { name: "Student", icon: <User size={18} /> },
-  { name: "Courses", icon: <BookOpen size={18} /> },
-  { name: "Events", icon: <CalendarDays size={18} /> },
-  { name: "Announcements", icon: <Megaphone size={18} /> },
+  { name: "Dashboard", icon: <LayoutDashboard size={18} /> },
+  { name: "Assignment", icon: <BookOpen size={18} /> },
   { name: "Resources", icon: <FolderOpen size={18} /> },
-  { name: "Report", icon: <BarChart size={18} /> },
 ];
 
 const Sidebar = () => {
@@ -90,7 +85,8 @@ const Dashboard = () => {
             value={date}
             className="p-2 border-none"
             tileClassName={({ date, view }) =>
-              view === "month" && date.toDateString() === new Date().toDateString()
+              view === "month" &&
+              date.toDateString() === new Date().toDateString()
                 ? "bg-blue-500 text-white rounded-lg"
                 : "hover:bg-gray-200 rounded-lg p-1"
             }
