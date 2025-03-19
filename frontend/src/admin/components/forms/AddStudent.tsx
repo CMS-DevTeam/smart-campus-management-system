@@ -2,10 +2,18 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import InputField from '@components/input';
-import SelectField from '@components/select';
 
-const AddUserForm = () => {
+import Input from '@components/input';
+import Select from '@components/select';
+
+import config from "../../../config";
+import { useModal } from '../../../context/ModalContext';
+
+type AddStudentProps = {
+  user?: any;
+}
+
+const AddUserForm = ({user} : AddStudentProps) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -24,11 +32,13 @@ const AddUserForm = () => {
     relationship: "",
   });
 
+  const { closeModal } = useModal();
+
   const handleOnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/student",
+        config.BASE_URL + "/api/student",
         formData
       );
       toast.success("student added successfully!", {
@@ -67,34 +77,30 @@ const AddUserForm = () => {
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg">
-      <h2 className="text-2xl font-semibold text-center mb-4">Add Student</h2>
       <form onSubmit={handleOnSubmit} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* First Name */}
-        <InputField
+        <Input
           label="First Name"
           name="firstName"
-          value={formData.firstName}
+          value={user? user.firstName : formData.firstName}
           onChange={handleChange}
           type="text"
           required
         />
 
-        {/* Last Name */}
-        <InputField
+        <Input
           label="Last Name"
           name="lastName"
-          value={formData.lastName}
+          value={user? user.lastName : formData.lastName}
           onChange={handleChange}
           type="text"
           required
         />
 
-        {/* Gender */}
-        <SelectField
+        <Select
           label="Gender"
           name="gender"
-          value={formData.gender}
+          value={user? user.gender : formData.gender}
           onChange={handleChange}
           options={[
             { value: 'Male', label: 'Male' },
@@ -104,71 +110,64 @@ const AddUserForm = () => {
           required
         />
 
-        {/* Password */}
-        <InputField
+        <Input
           label="Password"
           name="password"
-          value={formData.password}
+          value={user? user.password : formData.password}
           onChange={handleChange}
           type="password"
           required
         />
 
-        {/* Phone Number */}
-        <InputField
+        <Input
           label="Phone Number"
           name="phoneNumber"
-          value={formData.phoneNumber}
+          value={user? user.phoneNumber : formData.phoneNumber}
           onChange={handleChange}
           type="tel"
           required
         />
 
-        {/* Email */}
-        <InputField
+        <Input
           label="Email"
           name="email"
-          value={formData.email}
+          value={user? user.email : formData.email}
           onChange={handleChange}
           type="email"
           required
         />
 
-        {/* Date of Birth */}
-        <InputField
+        <Input
           label="Date of Birth"
           name="dateOfBirth"
-          value={formData.dateOfBirth}
+          value={user? user.dateOfBirth : formData.dateOfBirth}
           onChange={handleChange}
           type="date"
           required
         />
 
-        {/* NIC */}
-        <InputField
+        <Input
           label="NIC"
           name="nic"
-          value={formData.nic}
+          value={user? user.nic : formData.nic}
           onChange={handleChange}
           type="text"
           required
         />
 
-        {/* Address */}
-        <InputField
+        <Input
           label="Address"
           name="address"
-          value={formData.address}
+          value={user? user.address : formData.address}
           onChange={handleChange}
           type="text"
           required
         />
 
-        {/* Country */}
-        <SelectField
+        <Select
           label="Country"
           name="country"
-          value={formData.country}
+          value={user? user.country : formData.country}
           onChange={handleChange}
           options={[
             { value: 'srilanka', label: 'Sri Lanka' },
@@ -178,30 +177,10 @@ const AddUserForm = () => {
           required
         />
 
-          {/** Role */}
-          {/* <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Role
-            </label>
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            >
-              <option value="">Select Role</option>
-              <option value="Student">Student</option>
-              <option value="Lecturer">Lecturer</option>
-              <option value="Admin">Admin</option>
-            </select>
-          </div> */}
-
-        {/* Programme */}
-        <SelectField
+        <Select
           label="Programme"
           name="programme"
-          value={formData.programme}
+          value={user? user.programme : formData.programme}
           onChange={handleChange}
           options={[
             { value: 'cse', label: 'Computer Science in Software Engineering' },
@@ -212,8 +191,7 @@ const AddUserForm = () => {
           required
         />
 
-        {/* Optional Module */}
-        <SelectField
+        <Select
           label="Optional Module"
           name="optionalModule"
           value={formData.optionalModule}
@@ -222,40 +200,45 @@ const AddUserForm = () => {
           required
         />
 
-        {/* Guardian */}
-        <InputField
+        <Input
           label="Guardian"
           name="guardian"
-          value={formData.guardian}
+          value={user? user.guardian : formData.guardian}
           onChange={handleChange}
           type="text"
         />
 
-        {/* Immediate Contact Number */}
-        <InputField
+        <Input
           label="Immediate Contact Number"
           name="immediateContactNumber"
-          value={formData.immediateContactNumber}
+          value={user? user.immediateContactNumber : formData.immediateContactNumber}
           onChange={handleChange}
           type="tel"
         />
 
-        {/* Relationship */}
-        <InputField
+        <Input
           label="Relationship"
           name="relationship"
-          value={formData.relationship}
+          value={user? user.relationship : formData.relationship}
           onChange={handleChange}
           type="text"
         />
       </div>
 
-      <button
-        type="submit"
-        className="px-4 py-2 bg-blue-500 text-white rounded-md mt-4"
-      >
-        Add Student
-      </button>
+        <div className="flex gap-2 justify-end">
+          <button
+            onClick={closeModal}
+            className="cursor-pointer px-4 py-2 text-sky-800 bg-white rounded-md mt-4 border border-sky-800"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="cursor-pointer px-4 py-2 bg-sky-800 text-white rounded-md mt-4"
+          >
+            {user ? 'Update': 'Add'}
+          </button>
+        </div>
     </form>
     </div>
   );

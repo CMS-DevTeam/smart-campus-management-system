@@ -9,10 +9,11 @@ import AddLecturer from "../components/forms/AddLecturer";
 import AddAcademicOfficer from "../components/forms/AddAcademicOfficer";
 import { useModal } from "../../context/ModalContext";
 import axios from "axios";
+import config from "../../config";
 
 const NavItem = ({ icon, text, active }: { icon: React.ReactNode; text: string; active?: boolean }) => {
   return (
-    <div className={`flex items-center space-x-2 p-2 rounded cursor-pointer ${active ? "bg-[#006489]" : "hover:bg-gray-800"}`}>
+    <div className={`flex items-center space-x-2 p-2 rounded cursor-pointer ${active ? "bg-sky-800" : "hover:bg-gray-800"}`}>
       {icon}
       <span>{text}</span>
     </div>
@@ -47,16 +48,16 @@ const AdminPanel = () => {
         let response;
         switch (selectedRole) {
           case "Admin":
-            response = await axios.get("http://localhost:5000/api/administrator");
+            response = await axios.get(config.BASE_URL + "/api/administrator");
             break;
           case "Student":
-            response = await axios.get("http://localhost:5000/api/student");
+            response = await axios.get(config.BASE_URL + "/api/student");
             break;
           case "Lecturer":
-            response = await axios.get("http://localhost:5000/api/lecturer");
+            response = await axios.get(config.BASE_URL + "/api/lecturer");
             break;
           case "AcademicOfficer":
-            response = await axios.get("http://localhost:5000/api/academic-officer");
+            response = await axios.get(config.BASE_URL + "/api/academic-officer");
             break;
           default:
             response = { data: { data: [] } };
@@ -114,7 +115,7 @@ const AdminPanel = () => {
             </select>
             <button
               onClick={() => openModal(<AddAdmin />)}
-              className="bg-[#006489] cursor-pointer text-white px-4 py-2 rounded flex items-center"
+              className="bg-sky-800 cursor-pointer text-white px-4 py-2 rounded flex items-center"
             >
               <Plus size={18} className="mr-2" /> Add {selectedRole}
             </button>
@@ -135,7 +136,7 @@ const AdminPanel = () => {
 
         <div className="flex space-x-4 mb-4">
           <input type="text" placeholder="Search users..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="p-2 border rounded flex-1" />
-          <button className="bg-[#006489] text-white px-4 py-2 rounded flex items-center">
+          <button className="bg-sky-800 text-white px-4 py-2 rounded flex items-center">
             <Search size={18} className="mr-2" /> Search
           </button>
         </div>
