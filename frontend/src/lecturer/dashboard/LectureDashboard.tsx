@@ -1,21 +1,28 @@
-import { useState } from "react";
+import { useState, JSX } from "react";
 import { Calendar } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import {
-  LayoutDashboard,
-  User,
-  BookOpen,
-  FolderOpen,
-  Bell,
-} from "lucide-react";
+import { LayoutDashboard, User, BookOpen, FolderOpen, Bell } from "lucide-react";
 
-const menuItems = [
+// Define types for menu items
+interface MenuItem {
+  name: string;
+  icon: JSX.Element;
+}
+
+// Sidebar menu items
+const menuItems: MenuItem[] = [
   { name: "Dashboard", icon: <LayoutDashboard size={18} /> },
   { name: "Assignment", icon: <BookOpen size={18} /> },
   { name: "Resources", icon: <FolderOpen size={18} /> },
 ];
 
-const Sidebar = () => {
+// Define Sidebar component props
+interface SidebarProps {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
   return (
     <aside className="w-64 bg-black text-white p-4 min-h-screen">
       <div className="flex items-center justify-center mb-6">
@@ -25,7 +32,9 @@ const Sidebar = () => {
         {menuItems.map((item) => (
           <div
             key={item.name}
-            className="flex items-center space-x-2 p-2 cursor-pointer hover:bg-gray-700 rounded"
+            className={`flex items-center space-x-2 p-2 cursor-pointer rounded 
+            ${activeTab === item.name ? "bg-blue-500" : "hover:bg-gray-700"}`}
+            onClick={() => setActiveTab(item.name)}
           >
             {item.icon}
             <span>{item.name}</span>
@@ -36,13 +45,15 @@ const Sidebar = () => {
   );
 };
 
-const Dashboard = () => {
-  const [date, setDate] = useState(new Date());
-  const [notifications, setNotifications] = useState(3); // Example: 3 unread notifications
+const Dashboard: React.FC = () => {
+  const [date, setDate] = useState<Date>(new Date());
+  const [notifications, setNotifications] = useState<number>(3);
+  const [activeTab, setActiveTab] = useState<string>("Dashboard");
+  const [activeButton, setActiveButton] = useState<string>("");
 
   return (
     <div className="flex h-screen">
-      <Sidebar />
+      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
       <main className="flex-1 bg-gray-100 p-6 relative">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Good Morning</h1>
@@ -67,21 +78,23 @@ const Dashboard = () => {
 
         <h2 className="text-xl font-semibold mb-4">Vidusha Lakshan</h2>
 
-        <div className="grid  gap-15 max-w-[600px]">
+        {/* Dashboard Buttons */}
+        <div className="grid gap-4 max-w-[600px]">
           {["Resources", "Schedule", "Event", "Announcement"].map((item) => (
             <button
               key={item}
-              className="w-full bg-white text-black p-4 rounded-lg shadow-md text-center hover:bg-gray-200"
+              className={`w-full p-4 rounded-lg shadow-md text-center 
+              ${activeButton === item ? "bg-blue-500 text-white" : "bg-white text-black hover:bg-gray-200"}`}
+              onClick={() => setActiveButton(item)}
             >
               {item}
             </button>
           ))}
         </div>
 
-        {/* Custom Calendar Container */}
+        {/* Calendar */}
         <div className="absolute right-10 top-20 bg-white p-6 rounded-lg shadow-lg">
           <Calendar
-            // onChange={setDate}
             value={date}
             className="p-2 border-none"
             tileClassName={({ date, view }) =>
