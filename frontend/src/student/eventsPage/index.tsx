@@ -3,12 +3,14 @@ import { useState, useEffect } from "react";
 import { Search, Pencil, Eye, Trash, ChevronLeft, User, Plus } from "lucide-react";
 import Courses from '@mui/icons-material/CastForEducationRounded';
 import EventImage from '@mui/icons-material/DateRangeRounded';
-import EventForm from "../eventDeatils";
 import Announcement from '@mui/icons-material/CampaignRounded';
 import { useModal } from "../../context/ModalContext";
+import EventsDetailsPage from "../eventDeatils";
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from "react-router-dom";
 import API from "frontend/src/service/Axios";
 import { format } from 'date-fns';
+
+
 const EventsPage = () => {
 
   interface Events {
@@ -20,12 +22,33 @@ const EventsPage = () => {
     dateAndTime: string; // Add this line
   }
   const navigate = useNavigate();
-
+  const EventsDetailsPage = ({ event }: { event: Events }) => {
+    return (
+      <div className="p-4 border rounded-lg shadow-lg bg-white w-1/2 mx-auto mt-10">
+        <h2 className="text-xl font-bold mb-4">Event Details</h2>
+        <div className="flex items-center space-x-4">
+          <div className="w-50 h-50 bg-gray-300 full"></div>
+          {/* <button className="bg-blue-500 text-white px-3 py-1 rounded">Update Profile Image</button> */}
+        </div>
+        <div className="mt-4">
+          <p><strong>Name:</strong> {event.title}</p>
+          <p><strong>Address:</strong> {event.venue}</p>
+          <p><strong>Birthday:</strong> {format(new Date(event.dateAndTime), 'MMMM dd, yyyy')}</p>
+          <p><strong>Contact No:</strong> {event.guest}</p>
+          <p><strong>Email:</strong> {event.description}</p>
+          <p><strong>Course Name:</strong> {event.course}</p>
+        </div>
+        {/* <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded">Update</button> */}
+        {/* <button onClick={onBack} className="mt-4 ml-4 bg-gray-500 text-white px-4 py-2 rounded">
+          Back
+        </button> */}
+      </div>
+    );
+  }
   const [events, setEvents] = useState<Events[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
   // Fetch events from the backend on mount
   useEffect(() => {
     API.get("/event")
@@ -61,6 +84,10 @@ const EventsPage = () => {
   };
 
   const { openModal } = useModal();
+
+  const handleGetEvent = (event: Events) => {
+    openModal(<EventsDetailsPage event={event}/>);
+  };
 
   const renderDropdown = () => {
     return (
@@ -149,7 +176,7 @@ const EventsPage = () => {
                   <span className="text-lg font-medium text-black">{event.venue}</span>
                   <span className="text-lg font-medium text-black">{format(new Date(event.dateAndTime), 'MMMM dd, yyyy')}</span>
                   <button
-                    onClick={() => navigate("/EventForm")}
+                    onClick={() => handleGetEvent(event)}
                     className="bg-blue-600 text-white px-4 py-2 rounded-lg"
                   >
                     View

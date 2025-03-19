@@ -1,23 +1,54 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Search, Pencil, Eye, Trash, ChevronLeft, User, Plus } from "lucide-react";
 import Courses from '@mui/icons-material/CastForEducationRounded';
 import Events from '@mui/icons-material/DateRangeRounded';
 import Announcement from '@mui/icons-material/CampaignRounded';
 import { useModal } from "../../context/ModalContext";
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from "react-router-dom";
+import API from "frontend/src/service/Axios";
 
 const Results = () => {
+
+  interface Results {
+    examName: string;
+    mark: string;
+    grade: string;
+    status: string;
+  
+  }
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedEvent, setSelectedEvent] = useState<any | null>(null); // Track the selected event for the modal
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const navigate = useNavigate();
-  const events = [
-     { id: 1, examName:"Test Exam", marks:"100", grade:"A", status:"Pass" },
-    
-  ];
+  const [results, setResults] = useState<Results[]>([]);
   const [selectedRole, setSelectedRole] = useState("Announcement");
   const [isOpen, setIsOpen] = useState(false);
-  
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    API.get("/results")
+      .then((response) => {
+        console.log(response.data); // Log the response data
+        // Check if the response.data contains a 'data' property with courses
+        if (response.data && Array.isArray(response.data.data)) {
+          setResults(response.data.data);
+        } else {
+          console.error("Unexpected data format:", response.data);
+          setError("Unexpected data format received.");
+          setResults([]); // Fallback to empty array
+          
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching courses:", error);
+        setError("Failed to load Results.");
+        setResults([]); // Prevent map error
+        setLoading(false);
+      });
+  }, []);
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
@@ -62,7 +93,7 @@ const Results = () => {
         </div>
         <nav className="space-y-4">
         <Link to="/student-dashboard">
-            <NavItem icon={<User size={18} />} text="Dashboard"/>
+            <NavItem icon={<User size={18} />} text="Dashboard"  />
             </Link>
             <Link to="/CoursesPage">
             <NavItem icon={<Courses />} text="Courses" />
@@ -94,15 +125,16 @@ const Results = () => {
           </div>
         </div>
         <div className="p-2 w-full flex flex-col items-left">
-          {events.map((event) => (
+          {results.map((results,index) => (
             <div
-              key={event.id}
+              key={index}
               className={`border rounded-lg p-6 w-full h-20 bg-gray-100 flex justify-between items-center mt-4`}
             >
-              <span>{event.examName}</span>
-              <span>{event.marks}</span>
-              <span>{event.grade}</span>
-              <span>{event.status}</span>
+              <span>{results.examName}</span>
+              <span>{results.mark}</span>
+              <span>{results.grade}</span>
+              <span>{results.status}</span>
+              
 
             </div>
           ))}
