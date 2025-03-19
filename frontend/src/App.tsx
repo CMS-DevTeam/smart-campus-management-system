@@ -19,6 +19,7 @@ import EventForm from "./student/eventDeatils";
 import Courses from "./student/courses"
 import Announcemet from "./student/announcement";
 import Results from "./student/Results";
+import StudentDetails from "../src/student/components/forms/StudentDetails";
 
 const App: React.FC = () => {
   return (
@@ -42,6 +43,7 @@ const App: React.FC = () => {
             <Route path="/CoursesPage" element={<Courses/>}/>
             <Route path="/Announcemet" element={<Announcemet/>}/>
             <Route path="/Results" element={<Results/>}/>
+            <Route path="/StudentDetails" element={<StudentDetails/>}/>
 
           </Route>
         </Routes>

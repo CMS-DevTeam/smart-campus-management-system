@@ -61,15 +61,21 @@ const Announcemet = () => {
           <img src="images/logo.png" alt="Logo" className="w-auto h-10" />
         </div>
         <nav className="space-y-4">
-          <Link to="/">
-            <NavItem icon={<User size={18} />} text="Dashboard" />
-          </Link>
-          <NavItem icon={<Courses />} text="Courses" />
+        <Link to="/student-dashboard">
+            <NavItem icon={<User size={18} />} text="Dashboard"  />
+            </Link>
+            <Link to="/CoursesPage">
+            <NavItem icon={<Courses />} text="Courses" />
+            </Link>
           <Link to="/Events">
-            <NavItem icon={<Events />} text="Events" />
+          <NavItem icon={<Events />} text="Events"/>
           </Link>
-          <NavItem icon={<Announcement />} text="Announcements" active />
+          <Link to="/Announcemet">
+          <NavItem icon={<Announcement />} text="Announcements" active/>
+          </Link>
+          <Link to="/Results">
           <NavItem icon={<Search size={18} />} text="Results" />
+          </Link>
         </nav>
       </aside>
 

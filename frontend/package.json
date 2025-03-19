@@ -23,6 +23,7 @@
     "frontend": "file:",
     "lucide-react": "^0.479.0",
     "react": "^19.0.0",
+    "react-calendar": "^5.1.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.3.0",
     "react-scripts": "^5.0.1",

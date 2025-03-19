@@ -1,22 +1,46 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Pencil, Eye, Trash, ChevronLeft, User, Plus } from "lucide-react";
-import Courses from '@mui/icons-material/CastForEducationRounded';
+import CourseImage from '@mui/icons-material/CastForEducationRounded';
 import Events from '@mui/icons-material/DateRangeRounded';
 import Announcement from '@mui/icons-material/CampaignRounded';
 import { useModal } from "../../context/ModalContext";
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from "react-router-dom";
+import API from "frontend/src/service/Axios";
 
 const CoursesPage = () => {
-const navigate = useNavigate();
+  interface Courses {
+    module: string;
+    status: string;
+  }
 
-  const [courses] = useState([
-    { module: "sdp", status: "open", recourses: "view"},
-    { module: "sdp", status: "open", recourses: "view"},
-    { module: "sdp", status: "open", recourses: "view"},
-    { module: "sdp", status: "open", recourses: "view" },
+  const navigate = useNavigate();
 
-  ]);
-  
+  const [courses, setCourses] = useState<Courses[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    API.get("/course")
+      .then((response) => {
+        console.log(response.data); // Log the response data
+        // Check if the response.data contains a 'data' property with courses
+        if (response.data && Array.isArray(response.data.data)) {
+          setCourses(response.data.data);
+        } else {
+          console.error("Unexpected data format:", response.data);
+          setError("Unexpected data format received.");
+          setCourses([]); // Fallback to empty array
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching courses:", error);
+        setError("Failed to load courses.");
+        setCourses([]); // Prevent map error
+        setLoading(false);
+      });
+  }, []);
+
   const [selectedRole, setSelectedRole] = useState("Admin");
   const [isOpen, setIsOpen] = useState(false);
   
@@ -53,7 +77,7 @@ const navigate = useNavigate();
     );
   };
 
-  const handleRoleChange = (e:any) => {
+  const handleRoleChange = (e: any) => {
     setSelectedRole(e.target.value);
   };
 
@@ -64,19 +88,21 @@ const navigate = useNavigate();
           <img src="images/logo.png" alt="Logo" className="w-auto h-10" />
         </div>
         <nav className="space-y-4">
-            <Link to="/">
-            <NavItem icon={<User size={18} />} text="Dashboard"  />
-            </Link>
-            {/* <Link to="/StudentDashboard"> */}
-            <NavItem icon={<Courses />} text="Courses" active/>
-            {/* </Link> */}
-          
-          <Link to="/Events">
-          <NavItem icon={<Events />} text="Events"/>
+          <Link to="/student-dashboard">
+            <NavItem icon={<User size={18} />} text="Dashboard" />
           </Link>
-         
-          <NavItem icon={<Announcement />} text="Announcements" />
-          <NavItem icon={<Search size={18} />} text="Results" />
+          <Link to="/CoursesPage">
+            <NavItem icon={<CourseImage />} text="Courses" active />
+          </Link>
+          <Link to="/Events">
+            <NavItem icon={<Events />} text="Events" />
+          </Link>
+          <Link to="/Announcemet">
+            <NavItem icon={<Announcement />} text="Announcements" />
+          </Link>
+          <Link to="/Results">
+            <NavItem icon={<Search size={18} />} text="Results" />
+          </Link>
         </nav>
       </aside>
 
@@ -84,26 +110,11 @@ const navigate = useNavigate();
         <div className="flex justify-between items-center mb-6">
           <button className="flex items-center text-gray-600 hover:text-gray-900">
             <ChevronLeft size={24} />
-            <span className="ml-2 text-lg font-semibold">Cources</span>
+            <span className="ml-2 text-lg font-semibold">Courses</span>
           </button>
           <div className="flex items-center space-x-4 relative">
             <div className="flex items-center space-x-4">
-              {/* <select 
-                value={selectedRole} 
-                onChange={handleRoleChange} 
-                className="p-2 border rounded"
-              >
-                <option value="Admin">Admin</option>
-                <option value="Student">Student</option>
-                <option value="Lecturer">Lecturer</option>
-                <option value="AcademicOfficer">Academic Officer</option>
-              </select> */}
-              {/* <button 
-                onClick={() => openModal(getModalContent())} 
-                className="bg-[#006489] cursor-pointer text-white px-4 py-2 rounded flex items-center"
-              >
-                <Plus size={18} className="mr-2" /> Add User
-              </button> */}
+              {/* Add your select and button logic here if needed */}
             </div>
             <div onClick={toggleMenu} className="flex items-center space-x-2 bg-white p-2 px-4 rounded-full shadow-md cursor-pointer mr-0">
               <User size={18} />
@@ -115,38 +126,48 @@ const navigate = useNavigate();
 
         {/* Filters */}
         <div className="flex space-x-4 mb-4">
-          {/* <select className="p-2 border rounded">
-            <option>User role</option>
-          </select> */}
           <input type="text" placeholder="Search text" className="p-2 border rounded flex-1" />
           <button className="bg-[#006489] text-white px-4 py-2 rounded flex items-center">
             <Search size={18} className="mr-2" /> Search
           </button>
         </div>
 
-        {/* Cources Table */}
+        {/* Courses Table */}
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
           <table className="w-full text-left border-collapse">
             <thead className="bg-gray-200">
               <tr>
                 <th className="p-3">Module</th>
                 <th className="p-3">Status</th>
-                <th className="p-3">Recourses</th>
+                <th className="p-3">Resources</th>
                 <th className="p-3">Assignment</th>
               </tr>
             </thead>
             <tbody>
-              {courses.map((courses, index) => (
-                <tr key={index} className="border-t">
-                  <td className="p-3">{courses.module}</td>
-                  <td className="p-3">{courses.status}</td>
-                  <td className="p-3">{courses.recourses}</td>
-                  <td className="p-3">
-                  <button onClick={() => navigate("/lecture-materials")} className="bg-blue-600 text-white px-4 py-2 rounded-lg">Open</button>
-                  </td>
-                  
+              {error ? (
+                <tr>
+                  <td className="p-3 text-red-500" colSpan={4}>{error}</td>
                 </tr>
-              ))}
+              ) : (
+                Array.isArray(courses) && courses.length > 0 ? (
+                  courses.map((course, index) => (
+                    <tr key={index} className="border-t">
+                      <td className="p-3">{course.module}</td>
+                      <td className="p-3">{course.status}</td>
+                      <td className="p-3">
+                        <button onClick={() => navigate("/lecture-materials")} className="bg-blue-600 text-white px-4 py-2 rounded-lg">View</button>
+                      </td>
+                      <td className="p-3">
+                        <button onClick={() => navigate("/assignments")} className="bg-teal-700 text-white px-4 py-2 rounded-lg">Open</button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td className="p-3 text-gray-500" colSpan={4}>No courses available.</td>
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
         </div>

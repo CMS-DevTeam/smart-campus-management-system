@@ -5,9 +5,8 @@ import Events from '@mui/icons-material/DateRangeRounded';
 import Announcement from '@mui/icons-material/CampaignRounded';
 import { useModal } from "../../context/ModalContext";
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from "react-router-dom";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import { Calendar } from "react-calendar";
 const StudentPanel = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const navigate = useNavigate();
@@ -66,7 +65,7 @@ const StudentPanel = () => {
           <img src="images/logo.png" alt="Logo" className="w-auto h-10" />
         </div>
         <nav className="space-y-4">
-            <Link to="/">
+            <Link to="/student-dashboard">
             <NavItem icon={<User size={18} />} text="Dashboard" active />
             </Link>
             <Link to="/CoursesPage">
@@ -122,16 +121,24 @@ const StudentPanel = () => {
     
       </div>
       <div className="bg-white p-6 rounded-lg shadow-lg w-80">
-      <h2 className="text-lg font-bold mb-2">📅 Select a Date</h2>
-      <DatePicker 
-        selected={selectedDate}
-        onChange={(date: Date | null) => setSelectedDate(date)}
-        dateFormat="MMMM d, yyyy"
-        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <p className="mt-4 text-gray-700">
+      <div className="absolute top-10 bg-white p-4 rounded-lg shadow-lg">
+              <Calendar
+                value={selectedDate}
+                className="p-2 border-none"
+                tileClassName={({ date, view }) =>
+                  view === "month" &&
+                  date.toDateString() === new Date().toDateString()
+                    ? "bg-blue-500 text-white rounded-lg"
+                    : "hover:bg-gray-200 rounded-lg p-1"
+                }
+              />
+      
+      {/* <p className="mt-4 text-gray-700">
         Selected Date: <strong>{selectedDate?.toDateString()}</strong>
-      </p>
+      </p> */}
+
+      
+    </div>
     </div>
     </div>
   );
