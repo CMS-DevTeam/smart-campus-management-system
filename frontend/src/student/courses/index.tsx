@@ -1,10 +1,10 @@
+
 import { useState, useEffect } from "react";
-import { Search, Pencil, Eye, Trash, ChevronLeft, User, Plus } from "lucide-react";
+import { Search, ChevronLeft, User } from "lucide-react";
 import CourseImage from '@mui/icons-material/CastForEducationRounded';
 import Events from '@mui/icons-material/DateRangeRounded';
 import Announcement from '@mui/icons-material/CampaignRounded';
-import { useModal } from "../../context/ModalContext";
-import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import API from "frontend/src/service/Axios";
 
 const CoursesPage = () => {
@@ -14,71 +14,43 @@ const CoursesPage = () => {
   }
 
   const navigate = useNavigate();
-
   const [courses, setCourses] = useState<Courses[]>([]);
+  const [filteredCourses, setFilteredCourses] = useState<Courses[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     API.get("/course")
       .then((response) => {
-        console.log(response.data); // Log the response data
-        // Check if the response.data contains a 'data' property with courses
         if (response.data && Array.isArray(response.data.data)) {
           setCourses(response.data.data);
+          setFilteredCourses(response.data.data);
         } else {
-          console.error("Unexpected data format:", response.data);
           setError("Unexpected data format received.");
-          setCourses([]); // Fallback to empty array
+          setCourses([]);
         }
         setLoading(false);
       })
-      .catch((error) => {
-        console.error("Error fetching courses:", error);
+      .catch(() => {
         setError("Failed to load courses.");
-        setCourses([]); // Prevent map error
+        setCourses([]);
         setLoading(false);
       });
   }, []);
 
-  const [selectedRole, setSelectedRole] = useState("Admin");
-  const [isOpen, setIsOpen] = useState(false);
-  
-  const toggleMenu = () => setIsOpen(!isOpen);
+  useEffect(() => {
+    const results = courses.filter(course =>
+      course.module.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredCourses(results);
+  }, [searchTerm, courses]);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleMenu = () => setIsOpen(!isOpen);
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     window.location.href = "/login";
-  };
-
-  const { openModal } = useModal();
-
-  const renderDropdown = () => {
-    return (
-      <>
-        {isOpen && (
-          <div className="absolute right-0 mt-[140px] w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <div className="py-1">
-              <button
-                className="cursor-pointer text-left block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                My Account
-              </button>
-              <button
-                className="cursor-pointer text-left block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        )}
-      </>
-    );
-  };
-
-  const handleRoleChange = (e: any) => {
-    setSelectedRole(e.target.value);
   };
 
   return (
@@ -112,24 +84,21 @@ const CoursesPage = () => {
             <ChevronLeft size={24} />
             <span className="ml-2 text-lg font-semibold">Courses</span>
           </button>
-          <div className="flex items-center space-x-4 relative">
-            <div className="flex items-center space-x-4">
-              {/* Add your select and button logic here if needed */}
-            </div>
-            <div onClick={toggleMenu} className="flex items-center space-x-2 bg-white p-2 px-4 rounded-full shadow-md cursor-pointer mr-0">
-              <User size={18} />
-              <span>Kavindu</span>
-            </div>
-            {renderDropdown()}
+          <div onClick={toggleMenu} className="flex items-center space-x-2 bg-white p-2 px-4 rounded-full shadow-md cursor-pointer">
+            <User size={18} />
+            <span>Kavindu</span>
           </div>
         </div>
 
-        {/* Filters */}
+        {/* Search Bar */}
         <div className="flex space-x-4 mb-4">
-          <input type="text" placeholder="Search text" className="p-2 border rounded flex-1" />
-          <button className="bg-[#006489] text-white px-4 py-2 rounded flex items-center">
-            <Search size={18} className="mr-2" /> Search
-          </button>
+          <input
+            type="text"
+            placeholder="Search courses..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="p-2 border rounded flex-1"
+          />
         </div>
 
         {/* Courses Table */}
@@ -149,8 +118,8 @@ const CoursesPage = () => {
                   <td className="p-3 text-red-500" colSpan={4}>{error}</td>
                 </tr>
               ) : (
-                Array.isArray(courses) && courses.length > 0 ? (
-                  courses.map((course, index) => (
+                filteredCourses.length > 0 ? (
+                  filteredCourses.map((course, index) => (
                     <tr key={index} className="border-t">
                       <td className="p-3">{course.module}</td>
                       <td className="p-3">{course.status}</td>
@@ -164,21 +133,12 @@ const CoursesPage = () => {
                   ))
                 ) : (
                   <tr>
-                    <td className="p-3 text-gray-500" colSpan={4}>No courses available.</td>
+                    <td className="p-3 text-gray-500" colSpan={4}>No courses found.</td>
                   </tr>
                 )
               )}
             </tbody>
           </table>
-        </div>
-
-        {/* Pagination */}
-        <div className="flex justify-end space-x-2 mt-4">
-          <button className="p-2 px-3 bg-gray-200 rounded">&lt;</button>
-          <button className="p-2 px-3 bg-[#006489] text-white rounded">1</button>
-          <button className="p-2 px-3 bg-gray-200 rounded">2</button>
-          <button className="p-2 px-3 bg-gray-200 rounded">3</button>
-          <button className="p-2 px-3 bg-gray-200 rounded">&gt;</button>
         </div>
       </div>
     </div>
