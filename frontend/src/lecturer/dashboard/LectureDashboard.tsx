@@ -1,4 +1,4 @@
-import { useState, JSX } from "react";
+import { useState, useEffect, JSX } from "react";
 import { Calendar } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import {
@@ -12,65 +12,28 @@ import {
   Trash2,
 } from "lucide-react";
 import AddAssignmentPopup from "../components/AddAssignment";
+import axios from "axios";
 
-// Define types for menu items
 interface MenuItem {
   name: string;
   icon: JSX.Element;
 }
 
 interface Assignment {
-  id: number;
-  name: string;
-  module: string;
-  course: string;
-  dueDate: string;
-  status: string;
+  _id: string; 
+  name: string; 
+  module: string; 
+  course: string; 
+  dueDate: string; 
+  status: string; 
 }
 
-const assignmentsData: Assignment[] = [
-  {
-    id: 1,
-    name: "vidusha",
-    module: "SDP",
-    course: "Software Engineer",
-    dueDate: "20.03.2025",
-    status: "Active",
-  },
-  {
-    id: 2,
-    name: "lakshan",
-    module: "SDP",
-    course: "Software Engineer",
-    dueDate: "20.03.2025",
-    status: "Active",
-  },
-  {
-    id: 3,
-    name: "pradeep",
-    module: "SDP",
-    course: "Software Engineer",
-    dueDate: "20.03.2025",
-    status: "Active",
-  },
-  {
-    id: 4,
-    name: "ABC Perera",
-    module: "SDP",
-    course: "Software Engineer",
-    dueDate: "20.03.2025",
-    status: "Active",
-  },
-];
-
-// Sidebar menu items
 const menuItems: MenuItem[] = [
   { name: "Dashboard", icon: <LayoutDashboard size={18} /> },
   { name: "Assignment", icon: <BookOpen size={18} /> },
   { name: "Resources", icon: <FolderOpen size={18} /> },
 ];
 
-// Define Sidebar component props
 interface SidebarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
@@ -86,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
         {menuItems.map((item) => (
           <div
             key={item.name}
-            className={`flex items-center space-x-2 p-2 cursor-pointer rounded 
+            className={`flex items-center space-x-2 p-2 cursor-pointer rounded
             ${activeTab === item.name ? "bg-blue-500" : "hover:bg-gray-700"}`}
             onClick={() => setActiveTab(item.name)}
           >
@@ -99,7 +62,6 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
   );
 };
 
-// Define Top Navbar Component
 interface TopNavbarProps {
   notifications: number;
 }
@@ -108,7 +70,6 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ notifications }) => {
   return (
     <div className="flex justify-end items-center bg-white p-4 shadow-md fixed top-0 left-0 right-0">
       <div className="flex items-center space-x-4">
-        {/* Notification Icon with Badge */}
         <div className="relative cursor-pointer">
           <Bell size={22} />
           {notifications > 0 && (
@@ -129,15 +90,46 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ notifications }) => {
 
 const Dashboard: React.FC = () => {
   const [searchText, setSearchText] = useState<string>("");
-  const [assignments, setAssignments] = useState<Assignment[]>(assignmentsData);
+  const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 4;
-  // const [activeTab, setActiveTab] = useState<string>("Dashboard");
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+  const [refreshKey, setRefreshKey] = useState<number>(0); 
 
-  const filteredAssignments = assignments.filter((assignment) =>
-    assignment.name.toLowerCase().includes(searchText.toLowerCase())
-  );
+  const [date, setDate] = useState<Date>(new Date());
+  const [notifications, setNotifications] = useState<number>(3);
+  const [activeTab, setActiveTab] = useState<string>("Dashboard");
+  const [activeButton, setActiveButton] = useState<string>("");
+
+  useEffect(() => {
+    const fetchAssignments = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/assignment");
+        console.log("API Response:", response.data);
+
+        const transformedData = response.data.data.map((item: any) => ({
+          _id: item._id,
+          name: item.assignmentName, 
+          module: item.moduleDate, 
+          course: item.courseName, 
+          dueDate: item.dueDate,
+          status: "Active", 
+        }));
+
+        setAssignments(transformedData); 
+      } catch (error) {
+        console.error("Error fetching assignments:", error);
+      }
+    };
+    fetchAssignments();
+  }, [refreshKey]);
+
+
+  const filteredAssignments = Array.isArray(assignments)
+  ? assignments.filter((assignment) =>
+      assignment.name.toLowerCase().includes(searchText.toLowerCase())
+    )
+  : [];
 
   const totalPages = Math.ceil(filteredAssignments.length / itemsPerPage);
   const displayedAssignments = filteredAssignments.slice(
@@ -145,10 +137,9 @@ const Dashboard: React.FC = () => {
     currentPage * itemsPerPage
   );
 
-  const [date, setDate] = useState<Date>(new Date());
-  const [notifications, setNotifications] = useState<number>(3);
-  const [activeTab, setActiveTab] = useState<string>("Dashboard");
-  const [activeButton, setActiveButton] = useState<string>("");
+  const refreshData = () => {
+    setRefreshKey((prevKey) => prevKey + 1); 
+  };
 
   return (
     <div className="flex h-screen ">
@@ -167,12 +158,12 @@ const Dashboard: React.FC = () => {
                 (item) => (
                   <button
                     key={item}
-                    className={`w-full p-4 rounded-lg shadow-md text-center 
+                    className={`w-full p-4 rounded-lg shadow-md text-center
                   ${
                     activeButton === item
                       ? "bg-blue-500 text-white"
                       : "bg-white text-black hover:bg-gray-200"
-                  }`}
+                    }`}
                     onClick={() => setActiveButton(item)}
                   >
                     {item}
@@ -210,20 +201,10 @@ const Dashboard: React.FC = () => {
                 <button className="px-4 py-2 bg-blue-600 text-white rounded-md cursor-pointer">
                   Search
                 </button>
-                {/* <input
-                  type="date"
-                  placeholder="from"
-                  className="p-2 border border-gray-300 rounded-md"
-                />
-
-                <input
-                  type="date"
-                  placeholder="to"
-                  className="p-2 border border-gray-300 rounded-md"
-                /> */}
               </div>
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-md cursor-pointer"
-              onClick={() => setIsAddModalOpen(true)}
+              <button
+                className="px-4 py-2 bg-blue-600 text-white rounded-md cursor-pointer"
+                onClick={() => setIsAddModalOpen(true)}
               >
                 Add Assignment
               </button>
@@ -233,8 +214,8 @@ const Dashboard: React.FC = () => {
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="bg-gray-200 text-left">
-                    <th className="p-3">Assignment</th>
-                    <th className="p-3">Module</th>
+                    <th className="p-3">Assignment Name</th>
+                    <th className="p-3">Module Date</th>
                     <th className="p-3">Course Name</th>
                     <th className="p-3">Due Date</th>
                     <th className="p-3">Status</th>
@@ -244,7 +225,7 @@ const Dashboard: React.FC = () => {
                 <tbody>
                   {displayedAssignments.map((assignment) => (
                     <tr
-                      key={assignment.id}
+                      key={assignment._id}
                       className="border-t hover:bg-gray-100"
                     >
                       <td className="p-3">{assignment.name}</td>
@@ -272,7 +253,6 @@ const Dashboard: React.FC = () => {
               </table>
             </div>
 
-            {/* Pagination Section */}
             <div className="flex justify-end mt-4 space-x-2">
               <button
                 className="px-3 py-1 border rounded-md"
@@ -299,7 +279,10 @@ const Dashboard: React.FC = () => {
               >
                 &gt;
               </button>
-              <AddAssignmentPopup isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} />
+              <AddAssignmentPopup
+                isOpen={isAddModalOpen}
+                onClose={() => setIsAddModalOpen(false)}
+              />
             </div>
           </div>
         )}
