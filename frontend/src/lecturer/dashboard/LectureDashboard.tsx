@@ -11,6 +11,7 @@ import {
   Eye,
   Trash2,
 } from "lucide-react";
+import AddAssignmentPopup from "../components/AddAssignment";
 
 // Define types for menu items
 interface MenuItem {
@@ -117,7 +118,6 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ notifications }) => {
           )}
         </div>
 
-      
         <div className="flex items-center space-x-2 bg-gray-100 p-2 px-4 rounded-full shadow-md cursor-pointer">
           <User size={18} />
           <span>Vidusha</span>
@@ -132,6 +132,8 @@ const Dashboard: React.FC = () => {
   const [assignments, setAssignments] = useState<Assignment[]>(assignmentsData);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 4;
+  // const [activeTab, setActiveTab] = useState<string>("Dashboard");
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 
   const filteredAssignments = assignments.filter((assignment) =>
     assignment.name.toLowerCase().includes(searchText.toLowerCase())
@@ -155,7 +157,6 @@ const Dashboard: React.FC = () => {
       <div className="flex-1 bg-gray-100 p-6 pt-20 relative">
         <TopNavbar notifications={notifications} />
 
-       
         {activeTab === "Dashboard" && (
           <>
             <h1 className="text-[40px] font-bold">Good Morning</h1>
@@ -180,7 +181,6 @@ const Dashboard: React.FC = () => {
               )}
             </div>
 
-           
             <div className="absolute right-10 top-20 bg-white p-6 rounded-lg shadow-lg">
               <Calendar
                 value={date}
@@ -222,12 +222,13 @@ const Dashboard: React.FC = () => {
                   className="p-2 border border-gray-300 rounded-md"
                 /> */}
               </div>
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-md cursor-pointer">
+              <button className="px-4 py-2 bg-blue-600 text-white rounded-md cursor-pointer"
+              onClick={() => setIsAddModalOpen(true)}
+              >
                 Add Assignment
               </button>
             </div>
 
-          
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <table className="w-full border-collapse">
                 <thead>
@@ -298,6 +299,7 @@ const Dashboard: React.FC = () => {
               >
                 &gt;
               </button>
+              <AddAssignmentPopup isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} />
             </div>
           </div>
         )}
