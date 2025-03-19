@@ -1,13 +1,66 @@
 import { useState, JSX } from "react";
 import { Calendar } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { LayoutDashboard, User, BookOpen, FolderOpen, Bell } from "lucide-react";
+import {
+  LayoutDashboard,
+  User,
+  BookOpen,
+  FolderOpen,
+  Bell,
+  Pencil,
+  Eye,
+  Trash2,
+} from "lucide-react";
 
 // Define types for menu items
 interface MenuItem {
   name: string;
   icon: JSX.Element;
 }
+
+interface Assignment {
+  id: number;
+  name: string;
+  module: string;
+  course: string;
+  dueDate: string;
+  status: string;
+}
+
+const assignmentsData: Assignment[] = [
+  {
+    id: 1,
+    name: "vidusha",
+    module: "SDP",
+    course: "Software Engineer",
+    dueDate: "20.03.2025",
+    status: "Active",
+  },
+  {
+    id: 2,
+    name: "lakshan",
+    module: "SDP",
+    course: "Software Engineer",
+    dueDate: "20.03.2025",
+    status: "Active",
+  },
+  {
+    id: 3,
+    name: "pradeep",
+    module: "SDP",
+    course: "Software Engineer",
+    dueDate: "20.03.2025",
+    status: "Active",
+  },
+  {
+    id: 4,
+    name: "ABC Perera",
+    module: "SDP",
+    course: "Software Engineer",
+    dueDate: "20.03.2025",
+    status: "Active",
+  },
+];
 
 // Sidebar menu items
 const menuItems: MenuItem[] = [
@@ -64,7 +117,7 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ notifications }) => {
           )}
         </div>
 
-        {/* User Profile */}
+      
         <div className="flex items-center space-x-2 bg-gray-100 p-2 px-4 rounded-full shadow-md cursor-pointer">
           <User size={18} />
           <span>Vidusha</span>
@@ -75,6 +128,21 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ notifications }) => {
 };
 
 const Dashboard: React.FC = () => {
+  const [searchText, setSearchText] = useState<string>("");
+  const [assignments, setAssignments] = useState<Assignment[]>(assignmentsData);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 4;
+
+  const filteredAssignments = assignments.filter((assignment) =>
+    assignment.name.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredAssignments.length / itemsPerPage);
+  const displayedAssignments = filteredAssignments.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   const [date, setDate] = useState<Date>(new Date());
   const [notifications, setNotifications] = useState<number>(3);
   const [activeTab, setActiveTab] = useState<string>("Dashboard");
@@ -84,31 +152,35 @@ const Dashboard: React.FC = () => {
     <div className="flex h-screen ">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      {/* Main Content */}
       <div className="flex-1 bg-gray-100 p-6 pt-20 relative">
         <TopNavbar notifications={notifications} />
 
-        {/* Active Tab Section */}
+       
         {activeTab === "Dashboard" && (
           <>
-          <h1 className="text-[40px] font-bold">Good Morning</h1>
+            <h1 className="text-[40px] font-bold">Good Morning</h1>
             <h2 className="text-[20px] font-semibold mb-4">Vidusha Lakshan</h2>
 
-            {/* Dashboard Buttons */}
             <div className="grid gap-4 max-w-[600px]">
-              {["Resources", "Schedule", "Event", "Announcement"].map((item) => (
-                <button
-                  key={item}
-                  className={`w-full p-4 rounded-lg shadow-md text-center 
-                  ${activeButton === item ? "bg-blue-500 text-white" : "bg-white text-black hover:bg-gray-200"}`}
-                  onClick={() => setActiveButton(item)}
-                >
-                  {item}
-                </button>
-              ))}
+              {["Resources", "Schedule", "Event", "Announcement"].map(
+                (item) => (
+                  <button
+                    key={item}
+                    className={`w-full p-4 rounded-lg shadow-md text-center 
+                  ${
+                    activeButton === item
+                      ? "bg-blue-500 text-white"
+                      : "bg-white text-black hover:bg-gray-200"
+                  }`}
+                    onClick={() => setActiveButton(item)}
+                  >
+                    {item}
+                  </button>
+                )
+              )}
             </div>
 
-            {/* Calendar */}
+           
             <div className="absolute right-10 top-20 bg-white p-6 rounded-lg shadow-lg">
               <Calendar
                 value={date}
@@ -125,11 +197,115 @@ const Dashboard: React.FC = () => {
         )}
 
         {activeTab === "Assignment" && (
-          <div className="text-xl font-semibold text-center mt-10">Assignment Section</div>
+          <div className="p-6 bg-gray-100 min-h-screen">
+            <div className="flex justify-between items-center mb-4">
+              <div className="flex space-x-2">
+                <input
+                  type="text"
+                  placeholder="Search text"
+                  className="p-2 border border-gray-300 rounded-md"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                />
+                <button className="px-4 py-2 bg-blue-600 text-white rounded-md cursor-pointer">
+                  Search
+                </button>
+                {/* <input
+                  type="date"
+                  placeholder="from"
+                  className="p-2 border border-gray-300 rounded-md"
+                />
+
+                <input
+                  type="date"
+                  placeholder="to"
+                  className="p-2 border border-gray-300 rounded-md"
+                /> */}
+              </div>
+              <button className="px-4 py-2 bg-blue-600 text-white rounded-md cursor-pointer">
+                Add Assignment
+              </button>
+            </div>
+
+          
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-gray-200 text-left">
+                    <th className="p-3">Assignment</th>
+                    <th className="p-3">Module</th>
+                    <th className="p-3">Course Name</th>
+                    <th className="p-3">Due Date</th>
+                    <th className="p-3">Status</th>
+                    <th className="p-3">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {displayedAssignments.map((assignment) => (
+                    <tr
+                      key={assignment.id}
+                      className="border-t hover:bg-gray-100"
+                    >
+                      <td className="p-3">{assignment.name}</td>
+                      <td className="p-3">{assignment.module}</td>
+                      <td className="p-3">{assignment.course}</td>
+                      <td className="p-3">{assignment.dueDate}</td>
+                      <td className="p-3">{assignment.status}</td>
+                      <td className="p-3 flex space-x-2">
+                        <Pencil
+                          size={18}
+                          className="text-blue-600 cursor-pointer"
+                        />
+                        <Eye
+                          size={18}
+                          className="text-gray-600 cursor-pointer"
+                        />
+                        <Trash2
+                          size={18}
+                          className="text-red-600 cursor-pointer"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Pagination Section */}
+            <div className="flex justify-end mt-4 space-x-2">
+              <button
+                className="px-3 py-1 border rounded-md"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(currentPage - 1)}
+              >
+                &lt;
+              </button>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index + 1}
+                  className={`px-3 py-1 border rounded-md ${
+                    currentPage === index + 1 ? "bg-blue-600 text-white" : ""
+                  }`}
+                  onClick={() => setCurrentPage(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+              <button
+                className="px-3 py-1 border rounded-md"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                &gt;
+              </button>
+            </div>
+          </div>
         )}
 
         {activeTab === "Resources" && (
-          <div className="text-xl font-semibold text-center mt-10">Resources Section</div>
+          <div className="text-xl font-semibold text-center mt-10">
+            Resources Section
+          </div>
         )}
       </div>
     </div>
