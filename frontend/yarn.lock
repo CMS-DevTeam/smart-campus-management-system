@@ -2359,9 +2359,9 @@
     postcss "^8.4.41"
     tailwindcss "4.0.14"
 
-"@tailwindcss/vite@^4.0.13":
+"@tailwindcss/vite@^4.0.14":
   version "4.0.14"
-  resolved "https://registry.npmjs.org/@tailwindcss/vite/-/vite-4.0.14.tgz"
+  resolved "https://registry.yarnpkg.com/@tailwindcss/vite/-/vite-4.0.14.tgz#9d02b8925ce6eab307494d05e024566be0c205dd"
   integrity sha512-y69ztPTRFy+13EPS/7dEFVl7q2Goh1pQueVO8IfGeyqSpcx/joNJXFk0lLhMgUbF0VFJotwRSb9ZY7Xoq3r26Q==
   dependencies:
     "@tailwindcss/node" "4.0.14"
