@@ -336,6 +336,13 @@ interface Assignment {
   status: string; // Add a default status if not provided by API
 }
 
+interface Resource {
+    _id: string; // Use _id for MongoDB
+    name: string; // Matches resourceName in API
+    category: string; // Matches resourceType in API
+    status: string; // Add a default status if not provided by API
+}
+
 const menuItems: MenuItem[] = [
   { name: "Dashboard", icon: <LayoutDashboard size={18} /> },
   { name: "Assignment", icon: <BookOpen size={18} /> },
@@ -402,6 +409,7 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ notifications }) => {
 const Dashboard: React.FC = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [assignments, setAssignments] = useState<Assignment[]>([]);
+  const [resources, setResources] = useState<Resource[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 4;
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
@@ -413,27 +421,34 @@ const Dashboard: React.FC = () => {
 
   // Fetch assignments from the API
   useEffect(() => {
-    const fetchAssignments = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/assignment");
-        console.log("API Response:", response.data);
-
-        // Transform the API data to match the Assignment interface
-        const transformedData = response.data.data.map((item: any) => ({
+        const [assignmentsResponse, resourcesResponse] = await Promise.all([
+          axios.get("http://localhost:5000/api/assignment"),
+          axios.get("http://localhost:5000/api/resources"),
+        ]);
+  
+        setAssignments(assignmentsResponse.data.data.map((item: any) => ({
           _id: item._id,
-          name: item.assignmentName, // Map assignmentName to name
-          module: item.moduleDate, // Map moduleDate to module
-          course: item.courseName, // Map courseName to course
-          dueDate: item.dueDate, // Map dueDate to dueDate
-          status: "Active", // Add a default status
-        }));
-
-        setAssignments(transformedData); // Set the transformed data to the state
+          name: item.assignmentName,
+          module: item.moduleDate,
+          course: item.courseName,
+          dueDate: item.dueDate,
+          status: "Active",
+        })));
+  
+        setResources(resourcesResponse.data.data.map((item: any) => ({
+          _id: item._id,
+          name: item.resourceName,
+          category: item.category,
+          status: "Active",
+        })));
       } catch (error) {
-        console.error("Error fetching assignments:", error);
+        console.error("Error fetching data:", error);
       }
     };
-    fetchAssignments();
+  
+    fetchData();
   }, []);
 
   const filteredAssignments = Array.isArray(assignments)
@@ -442,9 +457,21 @@ const Dashboard: React.FC = () => {
     )
   : [];
 
+  const filteredResource = Array.isArray(resources)
+  ? resources.filter((resource) =>
+    resource.name.toLowerCase().includes(searchText.toLowerCase())
+    )
+  : [];
+
 
   const totalPages = Math.ceil(filteredAssignments.length / itemsPerPage);
   const displayedAssignments = filteredAssignments.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const totalPagesResource = Math.ceil(filteredResource.length / itemsPerPage);
+  const displayedResources = filteredResource.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -597,9 +624,100 @@ const Dashboard: React.FC = () => {
         )}
 
         {activeTab === "Resources" && (
-          <div className="text-xl font-semibold text-center mt-10">
-            Resources Section
+          <div className="p-6 bg-gray-100 min-h-screen">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex space-x-2">
+              <input
+                type="text"
+                placeholder="Search text"
+                className="p-2 border border-gray-300 rounded-md"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+              />
+              <button className="px-4 py-2 bg-blue-600 text-white rounded-md cursor-pointer">
+                Search
+              </button>
+            </div>
+            <button
+              className="px-4 py-2 bg-blue-600 text-white rounded-md cursor-pointer"
+              onClick={() => setIsAddModalOpen(true)}
+            >
+              Add Resource
+            </button>
           </div>
+
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-gray-200 text-left">
+                  <th className="p-3">Resource Name</th>
+                  <th className="p-3">Category</th>
+                  <th className="p-3">Status</th>
+                  <th className="p-3">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {displayedResources.map((resource) => (
+                  <tr
+                    key={resource._id}
+                    className="border-t hover:bg-gray-100"
+                  >
+                    <td className="p-3">{resource.name}</td>
+                    <td className="p-3">{resource.category}</td>
+                    <td className="p-3">{resource.status}</td>
+                    <td className="p-3 flex space-x-2">
+                      <Pencil
+                        size={18}
+                        className="text-blue-600 cursor-pointer"
+                      />
+                      <Eye
+                        size={18}
+                        className="text-gray-600 cursor-pointer"
+                      />
+                      <Trash2
+                        size={18}
+                        className="text-red-600 cursor-pointer"
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Pagination Section */}
+          <div className="flex justify-end mt-4 space-x-2">
+            <button
+              className="px-3 py-1 border rounded-md"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              &lt;
+            </button>
+            {Array.from({ length: totalPagesResource }, (_, index) => (
+              <button
+                key={index + 1}
+                className={`px-3 py-1 border rounded-md ${
+                  currentPage === index + 1 ? "bg-blue-600 text-white" : ""
+                }`}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              className="px-3 py-1 border rounded-md"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              &gt;
+            </button>
+            <AddAssignmentPopup
+              isOpen={isAddModalOpen}
+              onClose={() => setIsAddModalOpen(false)}
+            />
+          </div>
+        </div>
         )}
       </div>
     </div>
