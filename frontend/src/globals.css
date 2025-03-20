@@ -4,6 +4,17 @@
 @tailwind components;
 @tailwind utilities;
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+div
+{
+  font-family: "Poppins", sans-serif;
+}
 
 html {
     -webkit-text-size-adjust: 100%;
@@ -20,3 +31,59 @@ html {
     margin: 0;
     overflow-y: auto;
   }
+
+  .custom-select {
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+    position: relative;
+    height: 40px;
+    width: auto;
+  }
+
+  .custom-select::after {
+    content: "e2ea";
+    font-size: 16px;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .custom-select:focus {
+    border-color: #007BFF;
+    outline: none;
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      margin-top: -70px;
+      opacity: 0;
+    }
+    to {
+      margin-top: 0px;
+      opacity: 1;
+    }
+  }
+  

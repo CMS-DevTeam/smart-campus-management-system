@@ -6,7 +6,7 @@ const resourceSchema = mongoose.Schema(
       type: String,
       required: [true, "please enter Resource Name"],
     },
-    type: {
+    category: {
       type: String,
       required: [true, "please enter Type"],
     },

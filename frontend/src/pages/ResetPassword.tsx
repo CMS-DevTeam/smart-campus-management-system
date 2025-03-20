@@ -56,7 +56,7 @@ const ResetPassword = () => {
           </div>
 
           {/* Submit Button */}
-          <button className="w-full bg-[#006489] text-white font-semibold p-3 rounded-md transition cursor-pointer">
+          <button className="w-full bg-sky-800 text-white font-semibold p-3 rounded-md transition cursor-pointer">
             Reset Password
           </button>
         </form>
