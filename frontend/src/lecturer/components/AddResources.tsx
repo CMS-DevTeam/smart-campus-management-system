@@ -3,82 +3,87 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-interface AddAssignmentProps {
+interface AddResourceProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const AddAssignmentPopup: React.FC<AddAssignmentProps> = ({ isOpen, onClose }) => {
+const AddResourcePopup: React.FC<AddResourceProps> = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
-    assignmentName: "",
-    courseName: "",
-    moduleDate: "",
-    dueDate: "",
+    category: "",
+    name: "",
+    reservationDate: "",
+    reservationTime: "",
     description: "",
   });
 
   const handleOnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/assignment", formData);
-      toast.success("Assignment added successfully!");
-      onClose(); // Close modal after submission
+      await axios.post("http://localhost:5000/api/resources", formData);
+      toast.success("resources added successfully!");
+      onClose();
     } catch (error) {
-      toast.error("Failed to add assignment. Please try again.");
-      console.error("Error adding assignment:", error);
+      toast.error("Failed to add resources. Please try again.");
+      console.error("Error adding resources:", error);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  if (!isOpen) return null; // Don't render if modal is closed
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-white/50 b border-black rounded z-50">
       <div className="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg">
         <div className="flex justify-between items-center border-b pb-2">
-          <h2 className="text-lg font-semibold">Add Assignment</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">&times;</button>
+          <h2 className="text-lg font-semibold">Add Resources</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            &times;
+          </button>
         </div>
 
         <form onSubmit={handleOnSubmit} className="mt-4 space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Assignment Name</label>
-              <input
-                type="text"
-                name="assignmentName"
-                value={formData.assignmentName}
-                onChange={handleChange}
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Course Name</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Resource category
+              </label>
               <select
-                name="courseName"
-                value={formData.courseName}
+                name="category"
+                value={formData.category}
                 onChange={handleChange}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                 required
               >
-                <option value="">Select Course</option>
-                <option value="KU Topup">KU Topup</option>
-                <option value="CS">Computer Science</option>
-                <option value="IT">Information Technology</option>
+                <option value="">Select Category</option>
+                <option value="whiteboard"> Whiteboard</option>
+                <option value="textbooks">Textbooks</option>
+                <option value="microphone">Microphone</option>
+                <option value="internet">Internet Access & Wi-Fi </option>
+                <option value="headset">Headset & Webcam</option>
+                <option value="projector">Projector & Screen</option>
+                <option value="visualization">Data Visualization Tools</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Module Date</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Resource Name
+              </label>
               <input
-                type="date"
-                name="moduleDate"
-                value={formData.moduleDate}
+                type="text"
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                 required
@@ -86,11 +91,13 @@ const AddAssignmentPopup: React.FC<AddAssignmentProps> = ({ isOpen, onClose }) =
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Due Date</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Reservation Date
+              </label>
               <input
                 type="date"
-                name="dueDate"
-                value={formData.dueDate}
+                name="reservationDate"
+                value={formData.reservationDate}
                 onChange={handleChange}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                 required
@@ -99,22 +106,51 @@ const AddAssignmentPopup: React.FC<AddAssignmentProps> = ({ isOpen, onClose }) =
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Description</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Reservation Time
+            </label>
+            <select
+              name="reservationTime"
+              value={formData.reservationTime}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              required
+            >
+              <option value="">Select Time Want</option>
+              <option value="whiteboard">8.30 AM - 10.30 AM</option>
+              <option value="textbooks">10.30 AM - 12.30 PM</option>
+              <option value="microphone">12.30 PM - 2.30 PM</option>
+              <option value="internet">2.30 PM - 4.30 PM</option>
+              <option value="headset">4.30 PM - 6.30 PM</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Description
+            </label>
             <textarea
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md h-20"
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               required
             />
           </div>
 
           <div className="flex justify-end space-x-2">
-            <button type="button" onClick={onClose} className="px-4 py-2 border border-blue-600 text-blue-600 rounded-md">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 border border-blue-600 text-blue-600 rounded-md"
+            >
               Close
             </button>
-            <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md">
-              Add
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 text-white rounded-md"
+            >
+              Request
             </button>
           </div>
         </form>
@@ -123,4 +159,4 @@ const AddAssignmentPopup: React.FC<AddAssignmentProps> = ({ isOpen, onClose }) =
   );
 };
 
-export default AddAssignmentPopup;
+export default AddResourcePopup;

@@ -63,8 +63,8 @@ app.get("/", (req, res) => {
   res.send("Server is ready");
 });
 
-app.listen(9001, () => {
+app.listen(5000, () => {
   connectDB();
-  console.log("Server started at http://localhost:9001");
+  console.log("Server started at http://localhost:5000");
 });
 
