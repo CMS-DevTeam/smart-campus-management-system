@@ -15,6 +15,8 @@ const courseModuleRoute = require("./routes/courseModule.route");
 const announcement = require("./routes/announcement.route");
 const notification = require("./routes/notification.route");
 const shedule = require("./routes/shedule.route");
+const LectureMaterialRoutes = require("./routes/lectureMaterial.route");
+const AssignmentSubmitRoutes = require("./routes/assignmentSubmit.route");
 
 dotenv.config();
 
@@ -57,6 +59,8 @@ app.use("/api/lecturer", LecturerRoute);
 app.use("/api/assignment", AssignmentRoute);
 app.use("/api/resources", ResourcesRoute);
 app.use("/api/results", ResultsRoute);
+app.use("/api/lectureMaterial", LectureMaterialRoutes);
+app.use("/api/assignmentSubmit", AssignmentSubmitRoutes);
 
 
 app.get("/", (req, res) => {
@@ -67,4 +71,5 @@ app.listen(5000, () => {
   connectDB();
   console.log("Server started at http://localhost:5000");
 });
+
 

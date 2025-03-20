@@ -7,6 +7,8 @@ import { useModal } from "../../context/ModalContext";
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "react-calendar";
+import StudentDetails from "../components/forms/StudentDetails";
+
 const StudentPanel = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const navigate = useNavigate();
@@ -35,6 +37,7 @@ const StudentPanel = () => {
             <div className="py-1">
               <button
                 className="cursor-pointer text-left block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                onClick={() => navigate("/StudentDetails")}
               >
                 My Account
               </button>
