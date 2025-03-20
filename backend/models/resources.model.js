@@ -2,15 +2,23 @@ const mongoose = require("mongoose");
 
 const resourceSchema = mongoose.Schema(
   {
-    resourceName: {
+    category: {
       type: String,
       required: [true, "please enter Resource Name"],
     },
-    type: {
+    name: {
       type: String,
       required: [true, "please enter Type"],
     },
-    status: {
+    reservationDate: {
+      type: String,
+      required: false,
+    },
+    reservationTime: {
+      type: String,
+      required: false,
+    },
+    description: {
       type: String,
       required: false,
     },

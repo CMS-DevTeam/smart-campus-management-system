@@ -22,6 +22,8 @@ import Results from "./student/Results";
 import StudentDetails from "../src/student/components/forms/StudentDetails";
 import AnnouncementDetails from "./student/announcementDetails";
 import AssignmentSubmitForm from "./student/components/forms/assignmentSubmitForm";
+import LecturerDashboard from "./lecturer/dashboard/LectureDashboard";
+
 const App: React.FC = () => {
   return (
     <ModalProvider>
@@ -48,6 +50,7 @@ const App: React.FC = () => {
             <Route path="/StudentDetails" element={<StudentDetails onBack={() => { /* handle back action */ }} />}/>
             <Route path="/assignmentSubmit" element={<AssignmentSubmitForm/>}/>
 
+            <Route path="/lecture-dashboard" element={<LecturerDashboard />} />
           </Route>
         </Routes>
       </Router>
