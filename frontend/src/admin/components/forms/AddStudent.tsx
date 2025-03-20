@@ -3,7 +3,17 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const AddUserForm = () => {
+import Input from '@components/input';
+import Select from '@components/select';
+
+import config from "../../../config";
+import { useModal } from '../../../context/ModalContext';
+
+type AddStudentProps = {
+  user?: any;
+}
+
+const AddUserForm = ({user} : AddStudentProps) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -22,11 +32,13 @@ const AddUserForm = () => {
     relationship: "",
   });
 
+  const { closeModal } = useModal();
+
   const handleOnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/student",
+        config.BASE_URL + "/api/student",
         formData
       );
       toast.success("student added successfully!", {
@@ -64,278 +76,170 @@ const AddUserForm = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-semibold text-center mb-4">Add Student</h2>
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg">
       <form onSubmit={handleOnSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/** First Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              First Name
-            </label>
-            <input
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input
+          label="First Name"
+          name="firstName"
+          value={user? user.firstName : formData.firstName}
+          onChange={handleChange}
+          type="text"
+          required
+        />
 
-          {/** Last Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Last Name
-            </label>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+        <Input
+          label="Last Name"
+          name="lastName"
+          value={user? user.lastName : formData.lastName}
+          onChange={handleChange}
+          type="text"
+          required
+        />
 
-          {/** Gender */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Gender
-            </label>
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
+        <Select
+          label="Gender"
+          name="gender"
+          value={user? user.gender : formData.gender}
+          onChange={handleChange}
+          options={[
+            { value: 'Male', label: 'Male' },
+            { value: 'Female', label: 'Female' },
+            { value: 'Other', label: 'Other' },
+          ]}
+          required
+        />
 
-          {/** Password */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              type="text"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+        <Input
+          label="Password"
+          name="password"
+          value={user? user.password : formData.password}
+          onChange={handleChange}
+          type="password"
+          required
+        />
 
-          {/** Phone Number */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              name="phoneNumber"
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+        <Input
+          label="Phone Number"
+          name="phoneNumber"
+          value={user? user.phoneNumber : formData.phoneNumber}
+          onChange={handleChange}
+          type="tel"
+          required
+        />
 
-          {/** Email */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+        <Input
+          label="Email"
+          name="email"
+          value={user? user.email : formData.email}
+          onChange={handleChange}
+          type="email"
+          required
+        />
 
-          {/** Date of Birth */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Date of Birth
-            </label>
-            <input
-              type="date"
-              name="dateOfBirth"
-              value={formData.dateOfBirth}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+        <Input
+          label="Date of Birth"
+          name="dateOfBirth"
+          value={user? user.dateOfBirth : formData.dateOfBirth}
+          onChange={handleChange}
+          type="date"
+          required
+        />
 
-          {/** NIC */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              NIC
-            </label>
-            <input
-              type="text"
-              name="nic"
-              value={formData.nic}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+        <Input
+          label="NIC"
+          name="nic"
+          value={user? user.nic : formData.nic}
+          onChange={handleChange}
+          type="text"
+          required
+        />
 
-          {/** Address */}
-          <div className="col-span-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Address
-            </label>
-            <input
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            />
-          </div>
+        <Input
+          label="Address"
+          name="address"
+          value={user? user.address : formData.address}
+          onChange={handleChange}
+          type="text"
+          required
+        />
 
-          {/** Country */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Country
-            </label>
-            <select
-              name="country"
-              value={formData.country}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            >
-              <option value="">Select Country</option>
-              <option value="srilanka">Sri lanka</option>
-              <option value="india">India</option>
-              <option value="uk">UK</option>
-            </select>
-          </div>
+        <Select
+          label="Country"
+          name="country"
+          value={user? user.country : formData.country}
+          onChange={handleChange}
+          options={[
+            { value: 'srilanka', label: 'Sri Lanka' },
+            { value: 'india', label: 'India' },
+            { value: 'uk', label: 'UK' },
+          ]}
+          required
+        />
 
-          {/** Role */}
-          {/* <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Role
-            </label>
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            >
-              <option value="">Select Role</option>
-              <option value="Student">Student</option>
-              <option value="Lecturer">Lecturer</option>
-              <option value="Admin">Admin</option>
-            </select>
-          </div> */}
+        <Select
+          label="Programme"
+          name="programme"
+          value={user? user.programme : formData.programme}
+          onChange={handleChange}
+          options={[
+            { value: 'cse', label: 'Computer Science in Software Engineering' },
+            { value: 'cs', label: 'Computer Science' },
+            { value: 'it', label: 'Information Technology' },
+            { value: 'se', label: 'Software Engineering' },
+          ]}
+          required
+        />
 
-          {/** Programme */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Programme
-            </label>
-            <select
-              name="programme"
-              value={formData.programme}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            >
-              <option value="">Select Programme</option>
-              <option value="cse">
-                Computer Science in Software Engineering
-              </option>
-              <option value="cs">Computer Science</option>
-              <option value="it">Information Technology</option>
-              <option value="se">Software Engineering</option>
-            </select>
-          </div>
+        <Select
+          label="Optional Module"
+          name="optionalModule"
+          value={formData.optionalModule}
+          onChange={handleChange}
+          options={[{ value: 'mobile', label: 'Mobile' }]}
+          required
+        />
 
-          {/** Optional Module */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Optional Module
-            </label>
-            <select
-              name="optionalModule"
-              value={formData.optionalModule}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-              required
-            >
-              <option value="">Select Optional Module</option>
-              <option value="mobile">
-                Mobile
-              </option>
-            </select>
-          </div>
+        <Input
+          label="Guardian"
+          name="guardian"
+          value={user? user.guardian : formData.guardian}
+          onChange={handleChange}
+          type="text"
+        />
 
-          {/** Guardian Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Guardian
-            </label>
-            <input
-              type="text"
-              name="guardian"
-              value={formData.guardian}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-            />
-          </div>
+        <Input
+          label="Immediate Contact Number"
+          name="immediateContactNumber"
+          value={user? user.immediateContactNumber : formData.immediateContactNumber}
+          onChange={handleChange}
+          type="tel"
+        />
 
-          {/** Guardian Contact */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Immediate Contact Number
-            </label>
-            <input
-              type="tel"
-              name="immediateContactNumber"
-              value={formData.immediateContactNumber}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-            />
-          </div>
+        <Input
+          label="Relationship"
+          name="relationship"
+          value={user? user.relationship : formData.relationship}
+          onChange={handleChange}
+          type="text"
+        />
+      </div>
 
-          {/** Relationship */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Relationship
-            </label>
-            <input
-              type="text"
-              name="relationship"
-              value={formData.relationship}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-            />
-          </div>
+        <div className="flex gap-2 justify-end">
+          <button
+            onClick={closeModal}
+            className="cursor-pointer px-4 py-2 text-sky-800 bg-white rounded-md mt-4 border border-sky-800"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="cursor-pointer px-4 py-2 bg-sky-800 text-white rounded-md mt-4"
+          >
+            {user ? 'Update': 'Add'}
+          </button>
         </div>
-
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-md mt-4"
-        >
-          Add User
-        </button>
-      </form>
+    </form>
     </div>
   );
 };

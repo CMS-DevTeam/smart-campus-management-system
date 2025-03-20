@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,12 +11,20 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('authToken');
+
+    if (isLoggedIn) {
+      navigate('/admin-dashboard');
+    }
+  }, [navigate]);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (email === "chamara@gmail.com" && password === "Pwd123") {
       alert("Login successful!");
-      localStorage.setItem("authToken", "your-auth-token");
+      localStorage.setItem("authToken", email + "logged");
       navigate("/admin-dashboard");
     } else {
       alert("Invalid credentials!");
@@ -55,7 +63,7 @@ export default function Login() {
           </div>
           <a href="/forgot-password" className="text-blue-500 text-sm mt-1 inline-block">Forgot it?</a>
         </div>
-        <Button onClick={handleLogin} className="w-full bg-[#006489] text-white cursor-pointer">
+        <Button onClick={handleLogin} className="w-full bg-sky-800 text-white cursor-pointer">
           Log in
         </Button>
       </div>
