@@ -41,10 +41,10 @@ const studentSchema = mongoose.Schema(
       type: String,
       required: [true, "please enter country"],
     },
-    role: {
-        type: String,
-        required: [true, "please enter role"],
-    },
+    // role: {
+    //     type: String,
+    //     required: [true, "please enter role"],
+    // },
     programme: {
         type: String,
         required: [true, "please enter programme"],

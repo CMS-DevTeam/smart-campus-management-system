@@ -26,4 +26,8 @@ const assignmentSchema = mongoose.Schema(
 
 const Assignment = mongoose.model("Assignment", assignmentSchema);
 
+<<<<<<< HEAD
 module.exports = Assignment;
+=======
+module.exports = Assignment;
+>>>>>>> 0c1a06f5418c824d196e7ac2909bb67a4fe2903a
