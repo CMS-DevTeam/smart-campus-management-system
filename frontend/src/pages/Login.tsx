@@ -15,17 +15,17 @@ export default function Login() {
     const isLoggedIn = localStorage.getItem('authToken');
 
     if (isLoggedIn) {
-      navigate('/admin-dashboard');
+      navigate('');
     }
   }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (email === "chamara@gmail.com" && password === "Pwd123") {
+    if (email === "vidusha@gmail.com" && password === "123") {
       alert("Login successful!");
       localStorage.setItem("authToken", email + "logged");
-      navigate("/admin-dashboard");
+      navigate("/lecture-dashboard");
     } else {
       alert("Invalid credentials!");
     }

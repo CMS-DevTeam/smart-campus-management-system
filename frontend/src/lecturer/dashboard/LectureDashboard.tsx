@@ -12,6 +12,7 @@ import {
   Trash2,
 } from "lucide-react";
 import AddAssignmentPopup from "../components/AddAssignment";
+import AddResourcePopup from "../components/AddResources";
 import axios from "axios";
 
 // Define types for menu items
@@ -410,7 +411,7 @@ const Dashboard: React.FC = () => {
             >
               &gt;
             </button>
-            <AddAssignmentPopup
+            <AddResourcePopup
               isOpen={isAddModalOpen}
               onClose={() => setIsAddModalOpen(false)}
             />
