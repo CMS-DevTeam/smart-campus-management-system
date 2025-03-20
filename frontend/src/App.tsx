@@ -11,6 +11,7 @@ import { ModalProvider } from "./context/ModalContext";
 import ModalComponent from "./components/modal";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import LecturerDashboard from "./lecturer/dashboard/LectureDashboard";
 
 const App: React.FC = () => {
   return (
@@ -26,6 +27,7 @@ const App: React.FC = () => {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            <Route path="/lecture-dashboard" element={<LecturerDashboard />} />
           </Route>
         </Routes>
       </Router>

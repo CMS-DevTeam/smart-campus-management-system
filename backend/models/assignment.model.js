@@ -2,19 +2,23 @@ const mongoose = require("mongoose");
 
 const assignmentSchema = mongoose.Schema(
   {
-    title: {
+    assignmentName: {
       type: String,
       required: [true, "please enter Title"],
     },
-    decription: {
+    courseName: {
       type: String,
       required: [true, "please enter description"],
     },
-    dueDate: {
+    moduleDate: {
       type: Date,
       required: true,
     },
-    grade: {
+    dueDate: {
+      type: String,
+      required: true,
+    },
+    description: {
       type: String,
       required: false,
     },
@@ -26,8 +30,4 @@ const assignmentSchema = mongoose.Schema(
 
 const Assignment = mongoose.model("Assignment", assignmentSchema);
 
-<<<<<<< HEAD
 module.exports = Assignment;
-=======
-module.exports = Assignment;
->>>>>>> 0c1a06f5418c824d196e7ac2909bb67a4fe2903a
