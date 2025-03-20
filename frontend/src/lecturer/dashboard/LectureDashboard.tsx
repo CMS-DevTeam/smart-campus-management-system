@@ -32,7 +32,9 @@ interface Assignment {
 interface Resource {
     _id: string; // Use _id for MongoDB
     name: string; // Matches resourceName in API
-    category: string; // Matches resourceType in API
+    category: string; 
+    reservationDate: string; // Matches reservationDate in API
+    reservationTime: string; // Matches reservationTime in API
     status: string; // Add a default status if not provided by API
 }
 
@@ -132,9 +134,10 @@ const Dashboard: React.FC = () => {
   
         setResources(resourcesResponse.data.data.map((item: any) => ({
           _id: item._id,
-          name: item.resourceName,
           category: item.category,
-          status: "Active",
+          name: item.name,
+          reservationDate: item.reservationDate,
+          reservationTime: item.reservationTime,
         })));
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -343,9 +346,10 @@ const Dashboard: React.FC = () => {
             <table className="w-full border-collapse">
               <thead>
                 <tr className="bg-gray-200 text-left">
-                  <th className="p-3">Resource Name</th>
                   <th className="p-3">Category</th>
-                  <th className="p-3">Status</th>
+                  <th className="p-3">Resource Name</th>
+                  <th className="p-3">reservationDate</th>
+                  <th className="p-3">reservationTime</th>
                   <th className="p-3">Actions</th>
                 </tr>
               </thead>
@@ -355,9 +359,10 @@ const Dashboard: React.FC = () => {
                     key={resource._id}
                     className="border-t hover:bg-gray-100"
                   >
-                    <td className="p-3">{resource.name}</td>
                     <td className="p-3">{resource.category}</td>
-                    <td className="p-3">{resource.status}</td>
+                    <td className="p-3">{resource.name}</td>
+                    <td className="p-3">{resource.reservationDate}</td>
+                    <td className="p-3">{resource.reservationTime}</td>
                     <td className="p-3 flex space-x-2">
                       <Pencil
                         size={18}
