@@ -217,7 +217,7 @@ const Announcemet = () => {
   const AnnouncementDetailsPage = ({ announcemet }: { announcemet: Announcemet }) => {
     return (
       <div className="p-4 border rounded-lg shadow-lg bg-white w-1/2 mx-auto mt-10">
-        <h2 className="text-xl font-bold mb-4">Event Details</h2>
+        <h2 className="text-xl font-bold mb-4">Announcement Details</h2>
         <div className="flex items-center space-x-4">
           <div className="w-50 h-50 bg-gray-300 full"></div>
           {/* <button className="bg-blue-500 text-white px-3 py-1 rounded">Update Profile Image</button> */}
@@ -335,7 +335,7 @@ const Announcemet = () => {
         <div className="flex justify-between items-center mb-6">
           <button className="flex items-center text-gray-600 hover:text-gray-900">
             <ChevronLeft size={24} />
-            <span className="ml-2 text-lg font-semibold">Events</span>
+            <span className="ml-2 text-lg font-semibold">Announcement</span>
           </button>
           <div className="flex items-center space-x-4 relative">
             <div onClick={toggleMenu} className="flex items-center space-x-2 bg-white p-2 px-4 rounded-full shadow-md cursor-pointer mr-0">
